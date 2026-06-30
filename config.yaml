@@ -1,0 +1,293 @@
+server:
+  host: "0.0.0.0"
+  port: 3456
+  api_key: ""
+  cors_origins: ["*"]
+  discovery_interval: 3600
+
+routing:
+  strategy: "round_robin"
+  fallback: true
+  max_fallbacks: 3
+  cooldown_seconds: 30
+
+tasks:
+  coding:
+    model: "pollinations/openai-fast"
+    fallback: ["keylessai/gpt-4o", "ovhcloud_anon/Qwen3-Coder-30B-A3B-Instruct", "echo"]
+    timeout: 180
+  reasoning:
+    model: "keylessai/claude-3-5-sonnet-latest"
+    fallback: ["pollinations/openai", "ovhcloud_anon/Meta-Llama-3_3-70B-Instruct", "echo"]
+    timeout: 300
+  long_task:
+    model: "pollinations/openai"
+    fallback: ["keylessai/gpt-4o-mini", "ovhcloud_anon/Qwen3-32B", "echo"]
+    timeout: 600
+  vision:
+    model: "pollinations/openai"
+    fallback: ["keylessai/gpt-4o", "echo"]
+    timeout: 120
+  brainstorming:
+    model: "keylessai/gpt-4o"
+    fallback: ["pollinations/openai-fast", "ovhcloud_anon/Mistral-Nemo-Instruct-2407", "echo"]
+    timeout: 180
+  creative:
+    model: "pollinations/openai"
+    fallback: ["keylessai/gpt-4o", "ovhcloud_anon/gpt-oss-20b", "echo"]
+    timeout: 180
+  fast:
+    model: "echo"
+    fallback: []
+    timeout: 30
+  chat:
+    model: "pollinations/openai"
+    fallback: ["keylessai/gpt-4o-mini", "ovhcloud_anon/Mistral-Nemo-Instruct-2407", "echo"]
+    timeout: 120
+  balanced:
+    model: "pollinations/openai"
+    fallback: ["keylessai/gpt-4o-mini", "ovhcloud_anon/Qwen3-32B", "echo"]
+    timeout: 120
+  default:
+    model: "pollinations/openai"
+    fallback: ["keylessai/gpt-4o-mini", "ovhcloud_anon/Qwen3-Coder-30B-A3B-Instruct", "echo"]
+    timeout: 120
+
+models:
+  aliases:
+    "free-fast": "groq/llama-3.3-70b-versatile"
+    "free-smart": "deepseek/deepseek-chat"
+    "free-reasoning": "deepseek/deepseek-reasoner"
+    "free-vision": "google/gemini-2.0-flash"
+    "free-code": "github/gpt-4o-mini"
+    "gpt-4o-mini": "github/gpt-4o-mini"
+    "llama-3.3": "groq/llama-3.3-70b-versatile"
+    "deepseek": "deepseek/deepseek-chat"
+    "gemini": "google/gemini-2.0-flash"
+    "qwen": "cerebras/qwen3-235b"
+    "mistral": "mistral/mistral-large-latest"
+    "claude": "openrouter/anthropic/claude-3.5-sonnet"
+    "sonar": "perplexity/sonar-pro"
+    "yi": "01ai/yi-lightning"
+    "glm": "zhipu/glm-4.7-flash"
+    "jamba": "ai21/jamba-1.5-large"
+    "command": "cohere/command-a"
+    "grok": "xai/grok-3"
+    "phi": "github/phi-4"
+    "free-anon": "pollinations/openai"
+    "anon-fast": "pollinations/openai-fast"
+    "anon-reasoning": "keylessai/claude-3-5-sonnet-latest"
+    "anon-coding": "pollinations/openai-fast"
+    "anon-chat": "pollinations/openai"
+    "anon-creative": "pollinations/openai"
+    "anon-brainstorm": "keylessai/gpt-4o"
+    "keyless": "keylessai/openai-fast"
+    "airforce": "api_airforce/grok-4.1-mini:free"
+    "ovh-free": "ovhcloud_anon/Meta-Llama-3_3-70B-Instruct"
+    "ovh-coding": "ovhcloud_anon/Qwen3-Coder-30B-A3B-Instruct"
+
+discovery:
+  interval: 3600
+  sources:
+    - "https://raw.githubusercontent.com/cheahjs/free-llm-api-resources/main/data.json"
+    - "https://raw.githubusercontent.com/open-free-llm-api/awesome-free-llm-apis/main/README.md"
+    - "https://raw.githubusercontent.com/bradAGI/awesome-free-inference/main/README.md"
+    - "https://raw.githubusercontent.com/nejib1/Free-LLM/main/README.md"
+    - "https://raw.githubusercontent.com/lordbasilaiassistant-sudo/keylessai/main/README.md"
+    - "https://raw.githubusercontent.com/OEvortex/llm4free/main/README.md"
+  noauth_candidates:
+    pollinations:
+      url: "https://text.pollinations.ai/openai/v1"
+      models: ["openai", "openai-fast", "gpt-oss"]
+      priority: 1
+    keylessai:
+      url: "https://keylessai.thryx.workers.dev/v1"
+      models: []
+      priority: 2
+    ovhcloud_anon:
+      url: "https://oai.endpoints.kepler.ai.cloud.ovh.net/v1"
+      models: ["Qwen3-Coder-30B-A3B-Instruct", "Qwen3-32B", "Qwen3.5-397B-A17B",
+               "Mistral-Nemo-Instruct-2407", "Meta-Llama-3_3-70B-Instruct",
+               "gpt-oss-20b", "gpt-oss-120b"]
+      priority: 3
+
+providers:
+  openai:
+    base_url: "https://api.openai.com/v1"
+    models: ["gpt-4o-mini", "gpt-4o", "gpt-4.1-mini"]
+    env_key: "OPENAI_API_KEY"
+    priority: 1
+  deepseek:
+    base_url: "https://api.deepseek.com/v1"
+    models: ["deepseek-chat", "deepseek-reasoner"]
+    env_key: "DEEPSEEK_API_KEY"
+    priority: 3
+  groq:
+    base_url: "https://api.groq.com/openai/v1"
+    models: ["llama-3.3-70b-versatile", "llama-3.1-8b-instant", "mixtral-8x7b-32768"]
+    env_key: "GROQ_API_KEY"
+    priority: 2
+  cerebras:
+    base_url: "https://api.cerebras.ai/v1"
+    models: ["llama-3.1-8b", "qwen3-235b"]
+    env_key: "CEREBRAS_API_KEY"
+    priority: 4
+  github:
+    base_url: "https://models.inference.ai.azure.com"
+    models: ["gpt-4o-mini", "gpt-4o", "gpt-4.1-mini", "gpt-4.1-nano", "llama-3.3-70b", "phi-4"]
+    env_key: "GITHUB_TOKEN"
+    priority: 4
+  openrouter:
+    base_url: "https://openrouter.ai/api/v1"
+    models: ["openai/gpt-4o-mini", "anthropic/claude-3.5-sonnet", "google/gemini-2.0-flash", "meta-llama/llama-3.3-70b"]
+    env_key: "OPENROUTER_API_KEY"
+    priority: 3
+  together:
+    base_url: "https://api.together.xyz/v1"
+    models: ["meta-llama/Llama-3.3-70B-Instruct"]
+    env_key: "TOGETHER_API_KEY"
+    priority: 5
+  fireworks:
+    base_url: "https://api.fireworks.ai/inference/v1"
+    models: ["accounts/fireworks/models/llama-v3p3-70b-instruct"]
+    env_key: "FIREWORKS_API_KEY"
+    priority: 5
+  mistral:
+    base_url: "https://api.mistral.ai/v1"
+    models: ["mistral-small-latest", "mistral-medium-latest", "mistral-large-latest"]
+    env_key: "MISTRAL_API_KEY"
+    priority: 5
+  perplexity:
+    base_url: "https://api.perplexity.ai"
+    models: ["sonar-pro", "sonar", "sonar-reasoning"]
+    env_key: "PERPLEXITY_API_KEY"
+    priority: 5
+  sambanova:
+    base_url: "https://api.sambanova.ai/v1"
+    models: ["Meta-Llama-3.3-70B-Instruct"]
+    env_key: "SAMBANOVA_API_KEY"
+    priority: 5
+  nvidia:
+    base_url: "https://integrate.api.nvidia.com/v1"
+    models: ["meta/llama-3.3-70b-instruct"]
+    env_key: "NVIDIA_API_KEY"
+    priority: 5
+  hyperbolic:
+    base_url: "https://api.hyperbolic.xyz/v1"
+    models: ["meta-llama/Llama-3.3-70B-Instruct"]
+    env_key: "HYPERBOLIC_API_KEY"
+    priority: 5
+  huggingface:
+    base_url: "https://api-inference.huggingface.co/v1"
+    models: ["meta-llama/Llama-3.3-70B-Instruct", "Qwen/Qwen2.5-72B-Instruct", "microsoft/Phi-4"]
+    env_key: "HF_TOKEN"
+    priority: 5
+  cohere:
+    base_url: "https://api.cohere.ai/v1"
+    models: ["command-a", "command-r-plus", "aya-expanse-32b"]
+    env_key: "COHERE_API_KEY"
+    priority: 5
+  siliconflow:
+    base_url: "https://api.siliconflow.cn/v1"
+    models: ["deepseek-ai/DeepSeek-R1-Distill-Qwen-7B", "meta-llama/Llama-3.3-70B-Instruct"]
+    env_key: "SILICONFLOW_API_KEY"
+    priority: 5
+  zhipu:
+    base_url: "https://open.bigmodel.cn/api/paas/v4"
+    models: ["glm-4.7-flash", "glm-4.5-flash", "glm-4.6v-flash"]
+    env_key: "ZHIPU_API_KEY"
+    priority: 5
+  cloudflare:
+    base_url: "https://api.cloudflare.com/client/v4/accounts/{account_id}/ai/v1"
+    models: ["@cf/meta/llama-3.3-70b"]
+    env_key: "CLOUDFLARE_API_TOKEN"
+    priority: 5
+    extra:
+      needs_account_id: true
+  llm7:
+    base_url: "https://api.llm7.io/v1"
+    models: ["deepseek-r1", "qwen-2.5-coder", "llama-3.3-70b"]
+    env_key: "LLM7_API_KEY"
+    priority: 5
+  kilocode:
+    base_url: "https://api.kilo.ai/v1"
+    models: ["kilo-code-model"]
+    env_key: "KILOCODE_API_KEY"
+    priority: 5
+  ai21:
+    base_url: "https://api.ai21.com/studio/v1"
+    models: ["jamba-1.5-large", "jamba-1.5-mini"]
+    env_key: "AI21_API_KEY"
+    priority: 5
+  xai:
+    base_url: "https://api.x.ai/v1"
+    models: ["grok-3", "grok-3-mini"]
+    env_key: "XAI_API_KEY"
+    priority: 5
+  nebius:
+    base_url: "https://api.studio.nebius.ai/v1"
+    models: ["meta-llama/Llama-3.3-70B-Instruct"]
+    env_key: "NEBIUS_API_KEY"
+    priority: 5
+  ovhcloud:
+    base_url: "https://api.endpoints.ai.cloud.ovh.net/v1"
+    models: ["meta-llama/Llama-3.3-70B-Instruct"]
+    env_key: "OVH_API_KEY"
+    priority: 5
+  alibaba:
+    base_url: "https://dashscope.aliyuncs.com/compatible-mode/v1"
+    models: ["qwen-max", "qwen-plus", "qwen-turbo"]
+    env_key: "ALIBABA_API_KEY"
+    priority: 5
+  modelscope:
+    base_url: "https://api-inference.modelscope.cn/v1"
+    models: ["Qwen/Qwen2.5-72B-Instruct"]
+    env_key: "MODELSCOPE_TOKEN"
+    priority: 5
+  deepinfra:
+    base_url: "https://api.deepinfra.com/v1/openai"
+    models: ["meta-llama/Llama-3.3-70B-Instruct"]
+    env_key: "DEEPINFRA_API_KEY"
+    priority: 5
+  01ai:
+    base_url: "https://api.lingyiwanwu.com/v1"
+    models: ["yi-lightning"]
+    env_key: "YI_API_KEY"
+    priority: 5
+  jina:
+    base_url: "https://api.jina.ai/v1"
+    models: ["jina-embeddings-v3"]
+    env_key: "JINA_API_KEY"
+    priority: 5
+  pollinations:
+    base_url: "https://text.pollinations.ai/openai/v1"
+    models: ["openai", "openai-fast", "gpt-oss"]
+    env_key: ""
+    priority: 1
+
+noauth_providers:
+  keylessai:
+    base_url: "https://keylessai.thryx.workers.dev/v1"
+    models: ["openai-fast", "default", "step-3.5-flash:free", "gemma3-270m:free",
+             "gpt-5-nano", "gpt-4o", "gpt-4o-mini", "gpt-4",
+             "gpt-4-turbo", "gpt-3.5-turbo", "o1-mini", "o3-mini",
+             "gpt-4.1", "claude-3-haiku", "claude-3.5-sonnet", "claude-3-opus"]
+    priority: 2
+  api_airforce:
+    base_url: "https://api.airforce/v1"
+    models: ["grok-4.1-mini:free", "step-3.5-flash:free", "gemma3-270m:free",
+             "gpt-oss-120b", "moirai-agent", "translategemma-27b"]
+    priority: 3
+  ovhcloud_anon:
+    base_url: "https://oai.endpoints.kepler.ai.cloud.ovh.net/v1"
+    models: ["Qwen3-Coder-30B-A3B-Instruct", "Qwen3-32B", "Qwen3.5-397B-A17B",
+             "Mistral-Nemo-Instruct-2407", "Mistral-Small-3.2-24B-Instruct-2506",
+             "Meta-Llama-3_3-70B-Instruct", "gpt-oss-20b", "gpt-oss-120b",
+             "Mistral-7B-Instruct-v0.3", "Qwen3.5-9B", "Qwen3.6-27B",
+             "Qwen2.5-VL-72B-Instruct"]
+    priority: 3
+
+provider_types:
+  gemini:
+    type: "gemini"
+    env_key: "GEMINI_API_KEY"

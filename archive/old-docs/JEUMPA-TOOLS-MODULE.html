@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jeumpa LLM — Tools Module</title>
+  
+  <style>
+    :root {
+      --bg: #0a0f1a;
+      --glass: rgba(255, 255, 255, 0.05);
+      --glass-hover: rgba(255, 255, 255, 0.07);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --glass-blur: 40px;
+      --accent: rgba(120, 200, 255, 0.5);
+      --accent-light: rgba(180, 220, 255, 0.35);
+      --text: rgba(245, 245, 250, 0.95);
+      --text-dim: rgba(245, 245, 250, 0.65);
+      --text-muted: rgba(245, 245, 250, 0.45);
+      --tool-gold: rgba(255, 200, 140, 0.5);
+      --font-sans: 'Inter', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      padding: 3rem 2rem;
+    }
+    
+    .container { max-width: 1000px; margin: 0 auto; }
+    
+    h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+    h2 { font-size: 1.4rem; margin: 2.5rem 0 1rem; }
+    .subtitle { color: var(--text-dim); margin-bottom: 2rem; }
+    
+    .glass {
+      background: var(--glass);
+      backdrop-filter: blur(var(--glass-blur));
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    /* Tools Grid */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    
+    .tool-card {
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--glass-border);
+      border-radius: 8px;
+      transition: all 0.3s;
+    }
+    
+    .tool-card:hover {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+    
+    .tool-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    
+    .tool-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background: rgba(255, 200, 140, 0.15);
+      border: 1px solid rgba(255, 200, 140, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    
+    .tool-name {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+    
+    .tool-desc {
+      font-size: 0.9rem;
+      color: var(--text-dim);
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+    
+    .tool-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+    
+    .feature-tag {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border);
+      border-radius: 4px;
+      color: var(--text-dim);
+      font-family: var(--font-mono);
+    }
+    
+    /* Integration Info */
+    .integration-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+    
+    .integration-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--glass-border);
+      border-radius: 8px;
+    }
+    
+    .integration-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(120, 200, 255, 0.2);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      flex-shrink: 0;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Jeumpa LLM — Tools Module</h1>
+    <p class="subtitle">Native tool execution capabilities for real-world actions</p>
+    
+    <!-- Overview -->
+    <div class="glass">
+      <h2 style="font-size: 1.2rem; margin-bottom: 1rem;">Overview</h2>
+      <p style="color: var(--text-dim); line-height: 1.7; margin-bottom: 1.5rem;">
+        The Tools module enables Jeumpa LLM to execute real-world actions through native tool 
+        integration. Each tool is designed for safety, efficiency, and seamless agent orchestration 
+        with automatic input/output validation.
+      </p>
+      
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.5rem;">
+        <div style="text-align: center; padding: 1rem; background: rgba(255,255,255,0.02); border-radius: 8px;">
+          <div style="font-size: 1.8rem; color: var(--tool-gold); margin-bottom: 0.25rem;">6</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Core Tools</div>
+        </div>
+        <div style="text-align: center; padding: 1rem; background: rgba(255,255,255,0.02); border-radius: 8px;">
+          <div style="font-size: 1.8rem; color: var(--tool-gold); margin-bottom: 0.25rem;">90+</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Functions</div>
+        </div>
+        <div style="text-align: center; padding: 1rem; background: rgba(255,255,255,0.02); border-radius: 8px;">
+          <div style="font-size: 1.8rem; color: var(--tool-gold); margin-bottom: 0.25rem;">Auto</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Validation</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Core Tools -->
+    <h2>Core Tools</h2>
+    
+    <div class="tools-grid">
+      <!-- Web Search -->
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-icon">🔍</div>
+          <div class="tool-name">Web Search</div>
+        </div>
+        <p class="tool-desc">
+          Real-time information retrieval from the web with intelligent query formulation 
+          and result filtering.
+        </p>
+        <div class="tool-features">
+          <span class="feature-tag">Google/Bing API</span>
+          <span class="feature-tag">Snippets</span>
+          <span class="feature-tag">URL Extraction</span>
+          <span class="feature-tag">Content Summarization</span>
+        </div>
+      </div>
+      
+      <!-- Code Execution -->
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-icon">💻</div>
+          <div class="tool-name">Code Execution</div>
+        </div>
+        <p class="tool-desc">
+          Safe Python code execution with sandboxed environment, output capture, and error handling.
+        </p>
+        <div class="tool-features">
+          <span class="feature-tag">Python 3.12</span>
+          <span class="feature-tag">Sandboxed</span>
+          <span class="feature-tag">Timeout Control</span>
+          <span class="feature-tag">Output Capture</span>
+        </div>
+      </div>
+      
+      <!-- File Operations -->
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-icon">📁</div>
+          <div class="tool-name">File Operations</div>
+        </div>
+        <p class="tool-desc">
+          Read, write, patch, and search files with atomic operations and automatic backup.
+        </p>
+        <div class="tool-features">
+          <span class="feature-tag">Read/Write</span>
+          <span class="feature-tag">Patch</span>
+          <span class="feature-tag">Search Files</span>
+          <span class="feature-tag">Auto Backup</span>
+        </div>
+      </div>
+      
+      <!-- Database Query -->
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-icon">🗄️</div>
+          <div class="tool-name">Database Query</div>
+        </div>
+        <p class="tool-desc">
+          SQLite database operations with row-level security, parameterized queries, and result formatting.
+        </p>
+        <div class="tool-features">
+          <span class="feature-tag">SQLite</span>
+          <span class="feature-tag">RLS</span>
+          <span class="feature-tag">Parameterized</span>
+          <span class="feature-tag">JSON Output</span>
+        </div>
+      </div>
+      
+      <!-- API Integration -->
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-icon">🔌</div>
+          <div class="tool-name">API Integration</div>
+        </div>
+        <p class="tool-desc">
+          REST/GraphQL API calls with automatic authentication, rate limiting, and response parsing.
+        </p>
+        <div class="tool-features">
+          <span class="feature-tag">REST</span>
+          <span class="feature-tag">GraphQL</span>
+          <span class="feature-tag">Auth Headers</span>
+          <span class="feature-tag">Rate Limit</span>
+        </div>
+      </div>
+      
+      <!-- Terminal Commands -->
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-icon">⚡</div>
+          <div class="tool-name">Terminal Commands</div>
+        </div>
+        <p class="tool-desc">
+          Shell command execution with working directory control, timeout, and output streaming.
+        </p>
+        <div class="tool-features">
+          <span class="feature-tag">Bash</span>
+          <span class="feature-tag">Workdir</span>
+          <span class="feature-tag">Timeout</span>
+          <span class="feature-tag">Streaming</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Integration Patterns -->
+    <h2>Integration Patterns</h2>
+    <div class="glass">
+      <div class="integration-list">
+        <div class="integration-item">
+          <div class="integration-icon">1</div>
+          <div>
+            <div style="font-weight: 500; color: var(--text); margin-bottom: 0.25rem;">Tool Discovery</div>
+            <div style="color: var(--text-dim); font-size: 0.85rem;">LLM identifies required tool based on user request and available capabilities</div>
+          </div>
+        </div>
+        
+        <div class="integration-item">
+          <div class="integration-icon">2</div>
+          <div>
+            <div style="font-weight: 500; color: var(--text); margin-bottom: 0.25rem;">Parameter Validation</div>
+            <div style="color: var(--text-dim); font-size: 0.85rem;">Automatic input validation with schema checking and type conversion before execution</div>
+          </div>
+        </div>
+        
+        <div class="integration-item">
+          <div class="integration-icon">3</div>
+          <div>
+            <div style="font-weight: 500; color: var(--text); margin-bottom: 0.25rem;">Safe Execution</div>
+            <div style="color: var(--text-dim); font-size: 0.85rem;">Tool runs in sandboxed environment with timeout, resource limits, and error handling</div>
+          </div>
+        </div>
+        
+        <div class="integration-item">
+          <div class="integration-icon">4</div>
+          <div>
+            <div style="font-weight: 500; color: var(--text); margin-bottom: 0.25rem;">Result Processing</div>
+            <div style="color: var(--text-dim); font-size: 0.85rem;">Output captured, formatted, and returned to LLM for response generation</div>
+          </div>
+        </div>
+        
+        <div class="integration-item">
+          <div class="integration-icon">5</div>
+          <div>
+            <div style="font-weight: 500; color: var(--text); margin-bottom: 0.25rem;">Agent Coordination</div>
+            <div style="color: var(--text-dim); font-size: 0.85rem;">Multi-agent scenarios: tools can be delegated to specialized agents with context sharing</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- V2.0 Roadmap -->
+    <h2>V2.0 Enhancements</h2>
+    <div class="glass">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+        <div style="padding: 1rem; background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: 8px;">
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+            <div style="width: 8px; height: 8px; border-radius: 50%; background: rgba(140, 200, 180, 0.6);"></div>
+            <div style="font-weight: 500; color: var(--text);">MCP Integration</div>
+          </div>
+          <div style="color: var(--text-dim); font-size: 0.85rem;">Model Context Protocol for standardized tool definitions and discovery</div>
+        </div>
+        
+        <div style="padding: 1rem; background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: 8px;">
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+            <div style="width: 8px; height: 8px; border-radius: 50%; background: rgba(140, 200, 180, 0.6);"></div>
+            <div style="font-weight: 500; color: var(--text);">Plugin System</div>
+          </div>
+          <div style="color: var(--text-dim); font-size: 0.85rem;">Dynamic plugin loading for custom tools with hot-reload support</div>
+        </div>
+        
+        <div style="padding: 1rem; background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: 8px;">
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+            <div style="width: 8px; height: 8px; border-radius: 50%; background: rgba(200, 180, 140, 0.6);"></div>
+            <div style="font-weight: 500; color: var(--text);">Function Calling</div>
+          </div>
+          <div style="color: var(--text-dim); font-size: 0.85rem;">Structured output validation for reliable function parameter extraction</div>
+        </div>
+        
+        <div style="padding: 1rem; background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: 8px;">
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+            <div style="width: 8px; height: 8px; border-radius: 50%; background: rgba(200, 180, 140, 0.6);"></div>
+            <div style="font-weight: 500; color: var(--text);">Tool Chaining</div>
+          </div>
+          <div style="color: var(--text-dim); font-size: 0.85rem;">Composite tool execution with output passing between sequential tools</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Footer -->
+    <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--glass-border); text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+      <p>Jeumpa LLM Tools Module | Part of Jeumpa LLM v2.0</p>
+      <p style="margin-top: 0.5rem;">Dhaher Labs — June 19, 2026</p>
+    </div>
+  </div>
+</body>
+</html>
