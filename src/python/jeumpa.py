@@ -491,6 +491,39 @@ async def on_startup_handler(wapp):
     except Exception as e:
         log.warn(f"Init error: {e}")
 
+    # Load persisted discovered providers
+    try:
+        from providers.autodiscover import load_discovered_providers
+        saved = load_discovered_providers()
+        if saved:
+            from providers.integrator import AutoIntegrator
+            integrator = AutoIntegrator(app.registry, app.router)
+            restored = 0
+            for name, info in saved.items():
+                if name not in app.registry.providers:
+                    cfg_data = {
+                        "endpoint_url": info["base_url"],
+                        "working": True,
+                        "models": info.get("models", []),
+                        "latency_ms": info.get("latency_ms", 0),
+                    }
+                    from providers.base import ProviderConfig, ProviderStatus
+                    from providers.openai_compat import OpenAICompatibleProvider
+                    pcfg = ProviderConfig(name=name, type="openai_compat", base_url=info["base_url"],
+                                          api_key="", models=info.get("models", ["*"]),
+                                          priority=info.get("priority", 10))
+                    provider = OpenAICompatibleProvider(pcfg)
+                    provider._is_autodiscovered = True
+                    provider.latency_ms = info.get("latency_ms", 0)
+                    provider.status = ProviderStatus.ONLINE
+                    app.router.register(provider)
+                    app.registry.providers[name] = provider
+                    restored += 1
+            if restored:
+                log.info(f"Restored {restored} discovered providers from persistent store")
+    except Exception as e:
+        log.warn(f"Load discovered providers error: {e}")
+
     # Initialize database
     try:
         from models import init_db
@@ -619,15 +652,35 @@ def create_app():
     return wapp
 
 def main():
+    import socket, signal, platform
     svr_cfg = {}
     cfg_path = ROOT / "config.yaml"
     if cfg_path.exists():
         svr_cfg = yaml.safe_load(cfg_path.read_text()).get("server", {})
     host = svr_cfg.get("host", "0.0.0.0")
     port = svr_cfg.get("port", 3456)
+    instance = os.environ.get("JEUMAPPA_INSTANCE", "0")
+    reuse_port = os.environ.get("JEUMAPPA_REUSE_PORT", "").lower() in ("1", "true", "yes")
+
     wapp = create_app()
-    log.info(f"Starting on {host}:{port}")
-    web.run_app(wapp, host=host, port=port)
+    wapp["instance"] = instance
+    log.info(f"Instance {instance} starting on {host}:{port} (reuse_port={reuse_port})")
+
+    if reuse_port or int(instance) > 0:
+        runner = web.AppRunner(wapp)
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(runner.setup())
+        site = web.TCPSite(runner, host, port, reuse_port=True)
+        loop.run_until_complete(site.start())
+        log.info(f"Instance {instance} running on {host}:{port} (PID={os.getpid()})")
+        try:
+            loop.run_forever()
+        except KeyboardInterrupt:
+            pass
+        finally:
+            loop.run_until_complete(runner.cleanup())
+    else:
+        web.run_app(wapp, host=host, port=port)
 
 if __name__ == "__main__":
     main()

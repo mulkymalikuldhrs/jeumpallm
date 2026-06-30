@@ -54,6 +54,7 @@ class AutoIntegrator:
             priority=priority,
         )
         provider = OpenAICompatibleProvider(cfg)
+        provider._is_autodiscovered = True
         provider.latency_ms = result.get("latency_ms", 0)
         if result.get("rate_limited"):
             provider.status = ProviderStatus.RATE_LIMITED

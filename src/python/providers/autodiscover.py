@@ -1,10 +1,29 @@
 import os, json, re, time, asyncio, logging, urllib.parse
+from pathlib import Path
 from typing import Optional
 from .base import ProviderConfig, ProviderStatus
 from .openai_compat import OpenAICompatibleProvider
 from .intelligence import ProviderIntelligence
 
 log = logging.getLogger("jeumpa.autodiscover")
+
+DISCOVERED_STORE = None
+
+def _discovered_path():
+    global DISCOVERED_STORE
+    if DISCOVERED_STORE is None:
+        from jeumpa_paths import get_data_root
+        DISCOVERED_STORE = get_data_root() / "discovered_providers.json"
+    return DISCOVERED_STORE
+
+def load_discovered_providers() -> dict:
+    p = _discovered_path()
+    if p.exists():
+        try:
+            return json.loads(p.read_text())
+        except (json.JSONDecodeError, OSError):
+            pass
+    return {}
 
 TEST_PROMPT = {"model": "test", "messages": [{"role": "user", "content": "hi"}], "max_tokens": 4}
 PROBE_TIMEOUT = 15
@@ -56,6 +75,7 @@ class AutoDiscover:
         self.probe_history: dict = {}
         self._scan_count = 0
         self._last_scan_time = 0
+        self._max_fails_before_delete = 10
 
     async def scan_all_sources(self) -> dict:
         self._scan_count += 1
@@ -377,8 +397,85 @@ class AutoDiscover:
                         integrated = integrator.integrate(working)
                         if integrated:
                             log.info(f"AutoDiscovery: integrated {integrated} new providers")
+                self._prune_dead_providers()
+                self._save_discovered_providers()
             except Exception as e:
                 log.warn(f"AutoDiscovery cycle error: {e}")
+
+    def _prune_dead_providers(self):
+        to_remove = []
+        for name in list(self.registry.providers.keys()):
+            history = self.probe_history.get(name, [])
+            if len(history) < 5:
+                continue
+            recent = history[-5:]
+            fail_count = sum(1 for h in recent if not h.get("working"))
+            if fail_count >= min(5, self._max_fails_before_delete):
+                to_remove.append((name, fail_count))
+
+        for name, fails in to_remove:
+            provider = self.registry.providers.get(name)
+            if provider and getattr(provider, '_is_autodiscovered', False):
+                log.info(f"  🗑️ Pruning dead provider: {name} ({fails}/5 recent fails)")
+                self.router.unregister(name)
+                del self.registry.providers[name]
+                self.probe_history.pop(name, None)
+
+        if to_remove:
+            log.info(f"Pruned {len(to_remove)} dead providers")
+
+    def _save_discovered_providers(self):
+        payload = {}
+        for name, provider in self.registry.providers.items():
+            if not getattr(provider, '_is_autodiscovered', False):
+                continue
+            payload[name] = {
+                "base_url": provider.config.base_url,
+                "models": provider.config.model_list,
+                "priority": provider.config.priority,
+                "latency_ms": getattr(provider, "latency_ms", 0),
+                "status": provider.status.name if hasattr(provider.status, "name") else str(provider.status),
+            }
+        p = _discovered_path()
+        try:
+            p.parent.mkdir(parents=True, exist_ok=True)
+            p.write_text(json.dumps(payload, indent=2))
+            log.debug(f"Saved {len(payload)} discovered providers to {p}")
+        except OSError as e:
+            log.warn(f"Failed to save discovered providers: {e}")
+
+        # Also merge into config.yaml so CLI & other readers see them
+        if payload:
+            self._merge_to_config(payload)
+
+    def _merge_to_config(self, discovered: dict):
+        from pathlib import Path
+        import yaml
+        cfg_path = Path(__file__).parent.parent / "config.yaml"
+        if not cfg_path.exists():
+            return
+        try:
+            cfg = yaml.safe_load(cfg_path.read_text()) or {}
+            provs = cfg.setdefault("providers", {})
+            changed = 0
+            for name, info in discovered.items():
+                if name in provs:
+                    existing = provs[name]
+                    if existing.get("base_url") == info.get("base_url") and existing.get("models", []) == info.get("models", []):
+                        continue
+                provs[name] = {
+                    "type": "openai_compat",
+                    "base_url": info.get("base_url", ""),
+                    "models": info.get("models", []),
+                    "priority": info.get("priority", 10),
+                }
+                changed += 1
+            if changed:
+                with open(cfg_path, "w") as f:
+                    yaml.dump(cfg, f, default_flow_style=False)
+                log.info(f"📝 config.yaml: merged {changed} discovered providers")
+        except Exception as e:
+            log.warn(f"config.yaml merge failed: {e}")
 
     def get_stats(self) -> dict:
         return {

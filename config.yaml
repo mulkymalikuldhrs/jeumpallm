@@ -3,7 +3,7 @@ server:
   port: 3456
   api_key: ""
   cors_origins: ["*"]
-  discovery_interval: 3600
+  discovery_interval: 60
 
 routing:
   strategy: "round_robin"
@@ -87,7 +87,7 @@ models:
     "ovh-coding": "ovhcloud_anon/Qwen3-Coder-30B-A3B-Instruct"
 
 discovery:
-  interval: 3600
+  interval: 60
   sources:
     - "https://raw.githubusercontent.com/cheahjs/free-llm-api-resources/main/data.json"
     - "https://raw.githubusercontent.com/open-free-llm-api/awesome-free-llm-apis/main/README.md"

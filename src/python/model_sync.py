@@ -133,7 +133,7 @@ class ModelSyncManager:
             keys = load_env_file()
         except ImportError:
             pass
-        for env_path in [os.path.expanduser("~/.env"), "/sdcard/dhaherlabs/.env"]:
+        for env_path in [os.path.expanduser("~/.env")]:
             if os.path.exists(env_path):
                 with open(env_path) as f:
                     for line in f:

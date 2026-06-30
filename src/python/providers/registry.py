@@ -44,7 +44,8 @@ class ProviderRegistry:
             keys = load_env_file()
         except ImportError:
             pass
-        for env_path in [os.path.expanduser("~/.env"), "/sdcard/dhaherlabs/.env"]:
+        # .env already loaded by jeumpa_paths.load_env_file via startup
+        for env_path in [os.path.expanduser("~/.env")]:
             if os.path.exists(env_path):
                 with open(env_path) as f:
                     for line in f:

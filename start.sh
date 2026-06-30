@@ -97,6 +97,18 @@ stop_tunnel() {
 
 load_env
 
+_check_instance() {
+  local label="$1" pidfile="$2" name="$3"
+  if [ -f "$pidfile" ] && kill -0 $(cat "$pidfile") 2>/dev/null; then
+    local pid=$(cat "$pidfile")
+    local uptime_sec=$(ps -o etimes= -p "$pid" 2>/dev/null | tr -d ' ')
+    printf "  %-12s RUNNING (PID: %s)" "$name" "$pid"
+    [ -n "$uptime_sec" ] && printf "  uptime: %dd %02d:%02d:%02d\n" $((uptime_sec/86400)) $(( (uptime_sec%86400)/3600 )) $(( (uptime_sec%3600)/60 )) $((uptime_sec%60)) || echo
+  else
+    echo "  $name: STOPPED"
+  fi
+}
+
 case "${1:-start}" in
   start)
     log "Starting JeumpaLLM..."
@@ -122,22 +134,54 @@ case "${1:-start}" in
       [ $i -eq 12 ] && log "⚠️  Server not responding after 24s - check $logfile"
     done
     ;;
+  triangle)
+    log "Starting JeumpaLLM triangle mode (2 instances)..."
+    export PORT="${PORT:-3456}"
+    export JEUMAPPA_REUSE_PORT=1
+
+    # Instance 0 (primary)
+    JEUMAPPA_INSTANCE=0 nohup python3 "$DIR/jeumpa.py" >> "$logfile" 2>&1 &
+    pid0=$!
+    echo $pid0 > "${JEUMAPPA_PID_DIR}/jeumpa0.pid"
+    log "Instance 0 PID: $pid0"
+
+    # Instance 1 (fallback)
+    JEUMAPPA_INSTANCE=1 nohup python3 "$DIR/jeumpa.py" >> "$logfile" 2>&1 &
+    pid1=$!
+    echo $pid1 > "${JEUMAPPA_PID_DIR}/jeumpa1.pid"
+    log "Instance 1 PID: $pid1"
+
+    start_tunnel
+
+    for i in 1 2 3 4 5 6 7 8 9 10 11 12; do
+      if curl -sf "http://127.0.0.1:${PORT}/v1/health" > /dev/null 2>&1; then
+        log "✅ Triangle ONLINE (2 instances, kernel load-balanced)"
+        local pub=$(get_public_url)
+        [ -n "$pub" ] && log "🌐 Public: ${pub}/v1"
+        break
+      fi
+      sleep 2
+      [ $i -eq 12 ] && log "⚠️  Server not responding after 24s - check $logfile"
+    done
+    ;;
   stop)
     log "Stopping JeumpaLLM..."
     stop_tunnel
-    if [ -f "$pidfile" ]; then
-      local pid=$(cat "$pidfile")
-      kill "$pid" 2>/dev/null
-      for i in 1 2 3 4 5 6 7 8 9 10; do
-        kill -0 "$pid" 2>/dev/null || break
-        sleep 1
-      done
-      kill -9 "$pid" 2>/dev/null
-      rm -f "$pidfile"
-      log "Server stopped"
-    else
-      log "Not running"
-    fi
+    # Kill all jeumpa instances (primary + fallback)
+    for pf in "$pidfile" "${JEUMAPPA_PID_DIR}/jeumpa0.pid" "${JEUMAPPA_PID_DIR}/jeumpa1.pid"; do
+      if [ -f "$pf" ]; then
+        local pid=$(cat "$pf")
+        kill "$pid" 2>/dev/null
+        for i in 1 2 3 4 5 6 7 8 9 10; do
+          kill -0 "$pid" 2>/dev/null || break
+          sleep 1
+        done
+        kill -9 "$pid" 2>/dev/null
+        rm -f "$pf"
+        log "Stopped PID $pid"
+      fi
+    done
+    log "All instances stopped"
     log "Running backup..."
     bash "$DIR/scripts/backup.sh"
     ;;
@@ -153,11 +197,11 @@ case "${1:-start}" in
     echo "  LOGS: $JEUMAPPA_LOG_DIR"
     echo "  BACKUP: $JEUMAPPA_BACKUP_DIR"
     echo ""
-    if [ -f "$pidfile" ] && kill -0 $(cat "$pidfile") 2>/dev/null; then
-      local pid=$(cat "$pidfile")
-      local uptime_sec=$(ps -o etimes= -p "$pid" 2>/dev/null | tr -d ' ')
-      echo "Server: RUNNING (PID: $pid)"
-      [ -n "$uptime_sec" ] && printf "Uptime: %d days, %02d:%02d:%02d\n" $((uptime_sec/86400)) $(( (uptime_sec%86400)/3600 )) $(( (uptime_sec%3600)/60 )) $((uptime_sec%60))
+    _check_instance "" "$pidfile" "Primary"
+    _check_instance "0" "${JEUMAPPA_PID_DIR}/jeumpa0.pid" "Instance 0"
+    _check_instance "1" "${JEUMAPPA_PID_DIR}/jeumpa1.pid" "Instance 1"
+    echo ""
+    if [ -f "$pidfile" ] || [ -f "${JEUMAPPA_PID_DIR}/jeumpa0.pid" ] || [ -f "${JEUMAPPA_PID_DIR}/jeumpa1.pid" ]; then
       echo "Health:"
       curl -sf "http://127.0.0.1:${PORT:-3456}/v1/health" 2>/dev/null | python3 -m json.tool 2>/dev/null || echo "  ERROR (unreachable)"
       echo ""
@@ -201,7 +245,17 @@ case "${1:-start}" in
     bash "$DIR/scripts/backup.sh"
     ;;
   *)
-    echo "Usage: $0 {start|stop|restart|status|logs|tunnel|backup}"
+    echo "Usage: $0 {start|stop|restart|status|logs|tunnel|backup|triangle}"
+    echo ""
+    echo "Commands:"
+    echo "  start                 Start single instance on :\${PORT:-3456}"
+    echo "  triangle              Start 2 instances (SO_REUSEPORT, zero-downtime failover)"
+    echo "  stop                  Stop all instances"
+    echo "  restart               Stop then start"
+    echo "  status                Show all instance statuses"
+    echo "  logs                  Tail server log"
+    echo "  tunnel                Show tunnel info"
+    echo "  backup                Run backup"
     echo ""
     echo "Env overrides:"
     echo "  JEUMAPPA_HOME       Current: $JEUMAPPA_HOME"
