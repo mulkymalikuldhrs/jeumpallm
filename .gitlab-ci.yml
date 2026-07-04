@@ -1,0 +1,8 @@
+stages:
+  - validate
+
+validate:
+  stage: validate
+  script:
+    - echo "Repository validated"
+    - test -f README.md && echo "README exists" || echo "No README"
