@@ -11,3 +11,18 @@ Free LLM Provider Gateway — 32 providers, round-robin routing, latency optimiz
 - **Type:** Backend service
 - **Ecosystem:** DHAHER LABS
 - **Status:** 🔴 Not merge — code pending consolidation
+
+
+---
+
+## 🌐 Dhaher Labs Ecosystem
+
+Part of the [Dhaher Labs](https://dhaher-labs.codeberg.page) ecosystem — 30+ repos for autonomous AI life.
+
+| Resource | Link |
+|----------|------|
+| Ecosystem Home | https://dhaher-labs.codeberg.page |
+| GitHub Org | https://github.com/dhaher-labs |
+| GitLab Profile | https://gitlab.com/mulkymalikuldhr |
+| Codeberg Org | https://codeberg.org/Dhaher-Labs |
+
