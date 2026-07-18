@@ -1,0 +1,52 @@
+{
+  "test.sh": {
+    "mtime": 1783128675.0,
+    "ast_hash": "48817b59fbdedef872d57aa7d8e08806",
+    "semantic_hash": ""
+  },
+  "tests/shell-test.sh": {
+    "mtime": 1783123764.0,
+    "ast_hash": "e9bef965f3c1c4a963717aaa932af64b",
+    "semantic_hash": ""
+  },
+  ".github/workflows/ci.yml": {
+    "mtime": 1783116746.0,
+    "ast_hash": "bb7172f2474e2414abda458c0051ab27",
+    "semantic_hash": ""
+  },
+  ".gitlab-ci.yml": {
+    "mtime": 1783123300.0,
+    "ast_hash": "1dc083e6a685f36ff02d5c9a9d87870b",
+    "semantic_hash": ""
+  },
+  "AGENTS.md": {
+    "mtime": 1783114672.0,
+    "ast_hash": "148f85434d62051868d280ba062ed8b2",
+    "semantic_hash": ""
+  },
+  "CLAUDE.md": {
+    "mtime": 1783113311.0,
+    "ast_hash": "a23d3b4d1fbcc80cdb805e8cbdf9fd59",
+    "semantic_hash": ""
+  },
+  "DHAHER_LABS_MANDATE.md": {
+    "mtime": 1783114736.0,
+    "ast_hash": "208e9a656231209f52bc4a2ee6c7eaf3",
+    "semantic_hash": ""
+  },
+  "README.md": {
+    "mtime": 1783123395.0,
+    "ast_hash": "7424d126cc9977faca845e74deef6173",
+    "semantic_hash": ""
+  },
+  "SECURITY.md": {
+    "mtime": 1783123300.0,
+    "ast_hash": "30f4c247cdbface5843015377f90f792",
+    "semantic_hash": ""
+  },
+  "docs/plans/2026-06-30-jeumpa-merge.md": {
+    "mtime": 1782816736.0,
+    "ast_hash": "fa14cefe4a8ca133c2fe8c049f08bd02",
+    "semantic_hash": ""
+  }
+}

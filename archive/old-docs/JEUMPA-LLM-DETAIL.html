@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jeumpa LLM — System Detail</title>
+  
+  <style>
+    :root {
+      --bg: #0a0f1a;
+      --glass: rgba(255, 255, 255, 0.05);
+      --glass-hover: rgba(255, 255, 255, 0.07);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --glass-blur: 40px;
+      --accent: rgba(120, 200, 255, 0.5);
+      --accent-light: rgba(180, 220, 255, 0.35);
+      --text: rgba(245, 245, 250, 0.95);
+      --text-dim: rgba(245, 245, 250, 0.65);
+      --text-muted: rgba(245, 245, 250, 0.45);
+      --gray-blue: rgba(100, 120, 140, 0.5);
+      --status-prod: rgba(140, 200, 180, 0.5);
+      --status-plan: rgba(200, 180, 140, 0.5);
+      --font-sans: 'Inter', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      padding: 3rem 2rem;
+    }
+    
+    .container { max-width: 900px; margin: 0 auto; }
+    
+    h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+    h2 { font-size: 1.4rem; margin: 2.5rem 0 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--glass-border); }
+    h3 { font-size: 1.1rem; margin: 1.5rem 0 0.75rem; color: var(--text); }
+    
+    .subtitle { color: var(--text-dim); margin-bottom: 2rem; }
+    
+    .glass {
+      background: var(--glass);
+      backdrop-filter: blur(var(--glass-blur));
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      transition: background 0.3s;
+    }
+    
+    /* SYSTEM HEADER */
+    .system-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    
+    .system-title {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    
+    .system-type {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      background: rgba(200, 150, 255, 0.12);
+      color: rgba(200, 150, 255, 0.6);
+      border: 1px solid rgba(200, 150, 255, 0.25);
+    }
+    
+    .system-status {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.3rem 0.8rem;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-top: 0.5rem;
+    }
+    
+    .status-v1-audit {
+      background: rgba(140, 200, 180, 0.12);
+      color: var(--status-prod);
+      border: 1px solid rgba(140, 200, 180, 0.25);
+    }
+    
+    .status-v2-planning {
+      background: rgba(200, 180, 140, 0.12);
+      color: var(--status-plan);
+      border: 1px solid rgba(200, 180, 140, 0.25);
+    }
+    
+    /* MODULES GRID */
+    .modules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.75rem;
+      margin: 1rem 0;
+    }
+    
+    .module-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.75rem 1rem;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--glass-border);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      color: var(--text-dim);
+    }
+    
+    .module-bullet {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+    
+    /* DEPENDENCIES */
+    .dependencies-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin: 1rem 0;
+    }
+    
+    .dependency-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--glass-border);
+      border-radius: 8px;
+      font-size: 0.85rem;
+    }
+    
+    .dep-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(255, 200, 140, 0.2);
+      color: rgba(255, 200, 140, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      flex-shrink: 0;
+      font-weight: 600;
+    }
+    
+    /* ROADMAP */
+    .roadmap {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin: 1rem 0;
+    }
+    
+    .roadmap-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--glass-border);
+      position: relative;
+    }
+    
+    .roadmap-item:last-child {
+      border-bottom: none;
+    }
+    
+    .roadmap-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--glass-border);
+    }
+    
+    .roadmap-item.active::before {
+      background: var(--accent);
+    }
+    
+    .roadmap-phase {
+      min-width: 140px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--accent);
+    }
+    
+    .roadmap-content {
+      flex: 1;
+    }
+    
+    .roadmap-title {
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+      font-size: 0.9rem;
+    }
+    
+    .roadmap-desc {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+    
+    .roadmap-status {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      margin-left: 0.5rem;
+      font-weight: 500;
+    }
+    
+    .status-current {
+      background: rgba(140, 200, 180, 0.15);
+      color: rgba(140, 200, 180, 0.7);
+    }
+    
+    .status-upcoming {
+      background: rgba(200, 180, 140, 0.15);
+      color: rgba(200, 180, 140, 0.7);
+    }
+    
+    .status-future {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-muted);
+    }
+    
+    /* STATS BAR */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    
+    .stat-item {
+      text-align: center;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--glass-border);
+      border-radius: 8px;
+    }
+    
+    .stat-value {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 0.25rem;
+    }
+    
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+    
+    /* LINKS */
+    .links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+    
+    .link-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem 1rem;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 8px;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    
+    .link-item:hover {
+      background: var(--glass-hover);
+      color: var(--accent-light);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Jeumpa LLM</h1>
+    <p class="subtitle">AI Brain System — Modular architecture for reasoning, memory, and agent orchestration</p>
+    
+    <!-- SYSTEM OVERVIEW -->
+    <div class="glass">
+      <div class="system-header">
+        <div>
+          <div class="system-title">Jeumpa LLM</div>
+          <div class="system-status status-v1-audit">V1 Audit Complete</div>
+          <div class="system-status status-v2-planning" style="margin-left: 0.5rem;">V2 Planning</div>
+        </div>
+        <span class="system-type">AI Brain System</span>
+      </div>
+      
+      <p style="color: var(--text-dim); line-height: 1.7; margin-bottom: 1.5rem;">
+        Jeumpa LLM is a modular AI system designed for efficient reasoning, persistent memory, 
+        tool execution, and multi-agent orchestration. Not a frontier model — focused on practical 
+        deployment, cost efficiency, and real-world utility.
+      </p>
+      
+      <!-- STATS -->
+      <div class="stats-bar">
+        <div class="stat-item">
+          <div class="stat-value">24</div>
+          <div class="stat-label">Providers</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">613+</div>
+          <div class="stat-label">Models</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">117</div>
+          <div class="stat-label">Tests</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">92%</div>
+          <div class="stat-label">Coverage</div>
+        </div>
+      </div>
+      
+      <!-- LINKS -->
+      <div class="links">
+        <a href="https://codeberg.org/Dhaher-Labs/JeumpaLLM" class="link-item" target="_blank">
+          View Repo →
+        </a>
+        <a href="https://codeberg.org/Dhaher-Labs/JeumpaLLM/src/branch/main/docs" class="link-item" target="_blank">
+          Documentation 📄
+        </a>
+        <a href="https://jeumpa-llm.dhaher-labs.org" class="link-item" target="_blank">
+          Live Demo 🚀
+        </a>
+      </div>
+    </div>
+    
+    <!-- MODULES -->
+    <h2>Modules</h2>
+    <div class="glass">
+      <div class="modules-grid">
+        <div class="module-item">
+          <div class="module-bullet"></div>
+          <span>Memory Layer</span>
+        </div>
+        <div class="module-item">
+          <div class="module-bullet"></div>
+          <span>Reasoning Layer</span>
+        </div>
+        <div class="module-item">
+          <div class="module-bullet"></div>
+          <span>Tool Execution</span>
+        </div>
+        <div class="module-item">
+          <div class="module-bullet"></div>
+          <span>Agent Orchestration</span>
+        </div>
+        <div class="module-item">
+          <div class="module-bullet"></div>
+          <span>Training Pipeline</span>
+        </div>
+      </div>
+      
+      <!-- Agents & Training Detail Subsection -->
+      <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--glass-border);">
+        <h3 style="font-size: 1rem; margin-bottom: 1rem;">Agents Module — Multi-Agent Colony</h3>
+        <div class="modules-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+          <div class="module-item">
+            <div class="module-bullet" style="background: rgba(200, 150, 255, 0.6);"></div>
+            <span>Dynamic Delegation</span>
+          </div>
+          <div class="module-item">
+            <div class="module-bullet" style="background: rgba(200, 150, 255, 0.6);"></div>
+            <span>Conflict Resolution</span>
+          </div>
+          <div class="module-item">
+            <div class="module-bullet" style="background: rgba(200, 150, 255, 0.6);"></div>
+            <span>Stigmergy Coordination</span>
+          </div>
+          <div class="module-item">
+            <div class="module-bullet" style="background: rgba(200, 150, 255, 0.6);"></div>
+            <span>Task Scoreboard</span>
+          </div>
+        </div>
+      </div>
+      
+      <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--glass-border);">
+        <h3 style="font-size: 1rem; margin-bottom: 1rem;">Training Pipeline — Fine-tuning & Evaluation</h3>
+        <div class="modules-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+          <div class="module-item">
+            <div class="module-bullet" style="background: rgba(140, 200, 140, 0.6);"></div>
+            <span>Dataset Curation</span>
+          </div>
+          <div class="module-item">
+            <div class="module-bullet" style="background: rgba(140, 200, 140, 0.6);"></div>
+            <span>Fine-tuning Workflow</span>
+          </div>
+          <div class="module-item">
+            <div class="module-bullet" style="background: rgba(140, 200, 140, 0.6);"></div>
+            <span>Evaluation Benchmarks</span>
+          </div>
+          <div class="module-item">
+            <div class="module-bullet" style="background: rgba(140, 200, 140, 0.6);"></div>
+            <span>Model Registry</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Tools Detail Subsection -->
+      <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--glass-border);">
+        <h3 style="font-size: 1rem; margin-bottom: 1rem;">Tools Module — Capabilities</h3>
+        <div class="modules-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+          <div class="module-item">
+            <div class="module-bullet" style="background: rgba(255, 200, 140, 0.6);"></div>
+            <span>Web Search</span>
+          </div>
+          <div class="module-item">
+            <div class="module-bullet" style="background: rgba(255, 200, 140, 0.6);"></div>
+            <span>Code Execution</span>
+          </div>
+          <div class="module-item">
+            <div class="module-bullet" style="background: rgba(255, 200, 140, 0.6);"></div>
+            <span>File Operations</span>
+          </div>
+          <div class="module-item">
+            <div class="module-bullet" style="background: rgba(255, 200, 140, 0.6);"></div>
+            <span>Database Query</span>
+          </div>
+          <div class="module-item">
+            <div class="module-bullet" style="background: rgba(255, 200, 140, 0.6);"></div>
+            <span>API Integration</span>
+          </div>
+          <div class="module-item">
+            <div class="module-bullet" style="background: rgba(255, 200, 140, 0.6);"></div>
+            <span>Terminal Commands</span>
+          </div>
+        </div>
+      </div>
+      
+      <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--glass-border);">
+        <h3>V2.0 Enhancements</h3>
+        <div class="modules-grid" style="margin-top: 1rem;">
+          <div class="module-item">
+            <div class="module-bullet" style="background: rgba(140, 200, 180, 0.6);"></div>
+            <span>Session STM</span>
+          </div>
+          <div class="module-item">
+            <div class="module-bullet" style="background: rgba(140, 200, 180, 0.6);"></div>
+            <span>Graph LTM</span>
+          </div>
+          <div class="module-item">
+            <div class="module-bullet" style="background: rgba(140, 200, 180, 0.6);"></div>
+            <span>Entity Linking</span>
+          </div>
+          <div class="module-item">
+            <div class="module-bullet" style="background: rgba(140, 200, 180, 0.6);"></div>
+            <span>Hybrid Embeddings</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- DEPENDENCIES -->
+    <h2>Dependencies</h2>
+    <div class="glass">
+      <div class="dependencies-list">
+        <div class="dependency-item">
+          <div class="dep-icon">DB</div>
+          <div>
+            <div style="font-weight: 500; color: var(--text); margin-bottom: 0.25rem;">SQLite Database</div>
+            <div style="color: var(--text-dim); font-size: 0.8rem;">Multi-tenant data isolation with RLS (Row Level Security)</div>
+          </div>
+        </div>
+        
+        <div class="dependency-item">
+          <div class="dep-icon" style="background: rgba(120, 200, 255, 0.2); color: rgba(120, 200, 255, 0.6);">API</div>
+          <div>
+            <div style="font-weight: 500; color: var(--text); margin-bottom: 0.25rem;">LLM Provider APIs</div>
+            <div style="color: var(--text-dim); font-size: 0.8rem;">24 providers (10 free, 14 API-key based) with circuit breaker failover</div>
+          </div>
+        </div>
+        
+        <div class="dependency-item">
+          <div class="dep-icon" style="background: rgba(200, 150, 255, 0.2); color: rgba(200, 150, 255, 0.6);">MEM</div>
+          <div>
+            <div style="font-weight: 500; color: var(--text); margin-bottom: 0.25rem;">Memory Layer (V2.0)</div>
+            <div style="color: var(--text-dim); font-size: 0.8rem;">Session STM (SQLite) + Graph LTM (Entity/RDF triples) + Cosine similarity search</div>
+          </div>
+        </div>
+        
+        <div class="dependency-item">
+          <div class="dep-icon" style="background: rgba(140, 200, 140, 0.2); color: rgba(140, 200, 140, 0.6);">EMB</div>
+          <div>
+            <div style="font-weight: 500; color: var(--text); margin-bottom: 0.25rem;">Embedding Models</div>
+            <div style="color: var(--text-dim); font-size: 0.8rem;">Hybrid approach: Hash-based (fast) + ONNX fallback (accuracy) for semantic search</div>
+          </div>
+        </div>
+        
+        <div class="dependency-item">
+          <div class="dep-icon" style="background: rgba(255, 200, 140, 0.2); color: rgba(255, 200, 140, 0.6);">CTX</div>
+          <div>
+            <div style="font-weight: 500; color: var(--text); margin-bottom: 0.25rem;">Context Tracker</div>
+            <div style="color: var(--text-dim); font-size: 0.8rem;">Token-level tracking with auto-suggest model switching near context limits</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- ROADMAP -->
+    <h2>Roadmap</h2>
+    <div class="glass">
+      <div class="roadmap">
+        <!-- Sprint 1 -->
+        <div class="roadmap-item active">
+          <div class="roadmap-phase">Sprint 1<br><span style="color: var(--text-muted); font-size: 0.7rem;">Jun 19-25</span></div>
+          <div class="roadmap-content">
+            <div class="roadmap-title">
+              Memory Layer Implementation
+              <span class="roadmap-status status-current">In Progress</span>
+            </div>
+            <div class="roadmap-desc">
+              Session-level STM for active conversations, graph-based LTM for persistent knowledge, 
+              entity linking for cross-session intelligence, hybrid embeddings (hash + ONNX).
+            </div>
+          </div>
+        </div>
+        
+        <!-- Sprint 2 -->
+        <div class="roadmap-item">
+          <div class="roadmap-phase">Sprint 2<br><span style="color: var(--text-muted); font-size: 0.7rem;">Jun 26-30</span></div>
+          <div class="roadmap-content">
+            <div class="roadmap-title">
+              Reasoning Layer
+              <span class="roadmap-status status-upcoming">Upcoming</span>
+            </div>
+            <div class="roadmap-desc">
+              Chain-of-Thought (CoT), Tree-of-Thought (ToT), self-reflection mechanisms, 
+              and multi-step problem solving with verification.
+            </div>
+          </div>
+        </div>
+        
+        <!-- Sprint 3 -->
+        <div class="roadmap-item">
+          <div class="roadmap-phase">Sprint 3<br><span style="color: var(--text-muted); font-size: 0.7rem;">Jul 1-5</span></div>
+          <div class="roadmap-content">
+            <div class="roadmap-title">
+              Tool Layer
+              <span class="roadmap-status status-future">Future</span>
+            </div>
+            <div class="roadmap-desc">
+              MCP (Model Context Protocol) integration, plugin system for external tools, 
+              function calling with structured output validation.
+            </div>
+          </div>
+        </div>
+        
+        <!-- Sprint 4 -->
+        <div class="roadmap-item">
+          <div class="roadmap-phase">Sprint 4<br><span style="color: var(--text-muted); font-size: 0.7rem;">Jul 6-11</span></div>
+          <div class="roadmap-content">
+            <div class="roadmap-title">
+              Agent Layer
+              <span class="roadmap-status status-future">Future</span>
+            </div>
+            <div class="roadmap-desc">
+              Multi-agent colony with dynamic delegation, conflict resolution, 
+              stigmergy-based coordination, and task scoreboard.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- V1 vs V2 COMPARISON -->
+    <h2>V1.0 vs V2.0</h2>
+    <div class="glass">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+        <div>
+          <h3 style="font-size: 1rem; margin-bottom: 0.75rem;">V1.0 (Production)</h3>
+          <ul style="color: var(--text-dim); font-size: 0.85rem; line-height: 1.8; margin-left: 1.5rem;">
+            <li>Multi-tenant authentication</li>
+            <li>24 LLM providers, 613+ models</li>
+            <li>Context window tracking</li>
+            <li>Cost estimation</li>
+            <li>Circuit breaker failover</li>
+            <li>Streaming support</li>
+            <li>117 tests (92% coverage)</li>
+          </ul>
+        </div>
+        <div>
+          <h3 style="font-size: 1rem; margin-bottom: 0.75rem;">V2.0 (Sprint 1)</h3>
+          <ul style="color: var(--text-dim); font-size: 0.85rem; line-height: 1.8; margin-left: 1.5rem;">
+            <li>✅ Session STM (Short-Term Memory)</li>
+            <li>✅ Graph LTM (Long-Term Memory)</li>
+            <li>✅ Entity linking & relationship mapping</li>
+            <li>✅ Hybrid embeddings (hash + ONNX)</li>
+            <li>🔜 Cosine similarity search</li>
+            <li>🔜 Cross-session entity resolution</li>
+            <li>🔜 Forgetting curve implementation</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <!-- FOOTER -->
+    <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--glass-border); text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+      <p>Jeumpa LLM v1.0 → v2.0 | Built by Mulky Malikul Dhaher | Dhaher Labs</p>
+      <p style="margin-top: 0.5rem;">June 19, 2026</p>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,7 @@
+#!/usr/bin/env python3
+import sys, os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src', 'python'))
+os.environ['JEUMAPPA_HOME'] = os.path.dirname(os.path.abspath(__file__))
+os.environ.setdefault('JEUMAPPA_DATA', os.path.join(os.environ['JEUMAPPA_HOME'], 'data'))
+from cli import main
+main()

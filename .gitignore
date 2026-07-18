@@ -1,2 +1,88 @@
+# =============================================================================
+# JeumpaLLM — Unified Git Ignore (Python v2.0 + Node.js v1.0)
+# =============================================================================
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyc
+*.egg-info/
+.eggs/
+.tox/
+.nox/
+.pytest_cache/
+.coverage
+dist/
+build/
+
+# Node.js
+node_modules/
+npm-debug.log*
+
+# Environment
+.env
+.env.local
+.env.development
+.env.production
+.env.*.local
+
+# Data
+data/jeumpa.db
+data/rag.db
+data/backups/
+data/logs/
+data/run/
+
+# Logs
+*.log
+*.pid
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Certificates
+*.pem
+*.key
+!/tmp/key.pem
+!/tmp/cert.pem
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Temporary files
+tmp/
+temp/
+/tmp/
+*.tmp
+
+# Cache
+.cache/
+.parcel-cache/
+.eslintcache
+
+# TypeScript
+*.tsbuildinfo
+
+# Binary objects
+*.so
+
+# Misc
+.replit
+
+# Nested duplicate repo kept out of parent history (canonical code is at repo root)
 jeumpallm/
-graphify-out/

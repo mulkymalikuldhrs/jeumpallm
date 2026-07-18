@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200">
+  <!-- Background Gradient -->
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#16213e;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#7b2ff7;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f107a3;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Glow Filter -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- Animation: Pulse -->
+    <animate id="pulse" attributeName="opacity" values="1;0.7;1" dur="2s" repeatCount="indefinite"/>
+    
+    <!-- Animation: Slide In -->
+    <animate id="slideIn" attributeName="x" values="-100;0" dur="1s" begin="0s" fill="freeze"/>
+    
+    <!-- Animation: Color Shift -->
+    <animate id="colorShift" attributeName="stop-color" values="#00d4ff;#7b2ff7;#f107a3;#00d4ff" dur="4s" repeatCount="indefinite"/>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="200" fill="url(#bgGrad)"/>
+  
+  <!-- Grid Pattern -->
+  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+  </pattern>
+  <rect width="800" height="200" fill="url(#grid)"/>
+  
+  <!-- Title Text with Animation -->
+  <text x="400" y="70" font-family="Arial, sans-serif" font-size="48" font-weight="bold" text-anchor="middle" fill="url(#textGrad)" filter="url(#glow)">
+    JEUMPA LLM v1.0
+    <animate attributeName="letter-spacing" values="-2;0;-2" dur="3s" repeatCount="indefinite"/>
+  </text>
+  
+  <!-- Subtitle -->
+  <text x="400" y="110" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" fill="#e0e0e0" opacity="0.9">
+    AI Operating System for Dhaher Labs
+  </text>
+  
+  <!-- Animated Nodes -->
+  <g transform="translate(100, 150)">
+    <circle cx="0" cy="0" r="8" fill="#00d4ff" opacity="0.8">
+      <use href="#pulse"/>
+    </circle>
+    <circle cx="60" cy="0" r="8" fill="#7b2ff7" opacity="0.8">
+      <animate attributeName="opacity" values="0.8;0.4;0.8" dur="1.5s" begin="0.3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="120" cy="0" r="8" fill="#f107a3" opacity="0.8">
+      <animate attributeName="opacity" values="0.8;0.4;0.8" dur="1.5s" begin="0.6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="180" cy="0" r="8" fill="#00d4ff" opacity="0.8">
+      <animate attributeName="opacity" values="0.8;0.4;0.8" dur="1.5s" begin="0.9s" repeatCount="indefinite"/>
+    </circle>
+    
+    <!-- Connection Lines -->
+    <line x1="0" y1="0" x2="60" y2="0" stroke="#00d4ff" stroke-width="2" opacity="0.5">
+      <animate attributeName="stroke-dasharray" values="0,100;100,0" dur="2s" repeatCount="indefinite"/>
+    </line>
+    <line x1="60" y1="0" x2="120" y2="0" stroke="#7b2ff7" stroke-width="2" opacity="0.5">
+      <animate attributeName="stroke-dasharray" values="0,100;100,0" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+    </line>
+    <line x1="120" y1="0" x2="180" y2="0" stroke="#f107a3" stroke-width="2" opacity="0.5">
+      <animate attributeName="stroke-dasharray" values="0,100;100,0" dur="2s" begin="1s" repeatCount="indefinite"/>
+    </line>
+  </g>
+  
+  <!-- Dhaher Labs Branding -->
+  <g transform="translate(700, 180)">
+    <text x="0" y="0" font-family="Arial, sans-serif" font-size="12" text-anchor="end" fill="#ff6b6b">
+      Dhaher Labs
+    </text>
+    <text x="0" y="14" font-family="Arial, sans-serif" font-size="10" text-anchor="end" fill="#a0a0a0">
+      Mulky Malikul Dhaher
+    </text>
+  </g>
+  
+  <!-- Feature Badges -->
+  <g transform="translate(50, 150)" opacity="0.7">
+    <rect x="0" y="0" width="70" height="20" rx="10" fill="rgba(0,212,255,0.2)" stroke="#00d4ff" stroke-width="1"/>
+    <text x="35" y="14" font-family="Arial" font-size="10" text-anchor="middle" fill="#00d4ff">24 Providers</text>
+    
+    <rect x="80" y="0" width="60" height="20" rx="10" fill="rgba(123,47,247,0.2)" stroke="#7b2ff7" stroke-width="1"/>
+    <text x="110" y="14" font-family="Arial" font-size="10" text-anchor="middle" fill="#7b2ff7">613+ Models</text>
+    
+    <rect x="150" y="0" width="80" height="20" rx="10" fill="rgba(241,7,163,0.2)" stroke="#f107a3" stroke-width="1"/>
+    <text x="190" y="14" font-family="Arial" font-size="10" text-anchor="middle" fill="#f107a3">Memory Layer</text>
+  </g>
+  
+  <!-- Animated Data Flow -->
+  <g transform="translate(600, 140)" opacity="0.6">
+    <rect x="0" y="0" width="15" height="15" fill="#00d4ff">
+      <animate attributeName="x" values="0;20;0" dur="2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite"/>
+    </rect>
+    <rect x="25" y="0" width="15" height="15" fill="#7b2ff7">
+      <animate attributeName="x" values="25;45;25" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0;1;0" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+    </rect>
+    <rect x="50" y="0" width="15" height="15" fill="#f107a3">
+      <animate attributeName="x" values="50;70;50" dur="2s" begin="1s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0;1;0" dur="2s" begin="1s" repeatCount="indefinite"/>
+    </rect>
+  </g>
+  
+  <!-- Version Badge -->
+  <g transform="translate(50, 30)">
+    <rect x="0" y="0" width="60" height="22" rx="4" fill="rgba(0,212,255,0.1)" stroke="#00d4ff" stroke-width="1.5"/>
+    <text x="30" y="16" font-family="Arial" font-size="11" text-anchor="middle" fill="#00d4ff" font-weight="bold">v1.0.0</text>
+  </g>
+  
+  <!-- Status Badge -->
+  <g transform="translate(120, 30)">
+    <rect x="0" y="0" width="80" height="22" rx="4" fill="rgba(0,255,100,0.1)" stroke="#00ff64" stroke-width="1.5"/>
+    <text x="40" y="16" font-family="Arial" font-size="11" text-anchor="middle" fill="#00ff64" font-weight="bold">Production</text>
+  </g>
+</svg>

@@ -1,0 +1,2404 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Jeumpa LLM — Dashboard</title>
+  <meta name="description" content="Jeumpa LLM — The Biggest Free Multi-LLM Hub Dashboard">
+  <meta name="theme-color" content="#6366f1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Jeumpa LLM">
+  <link rel="manifest" href="manifest.json">
+  <style>
+    /* ═══════════════════════════════════════════════════════════
+       Jeumpa LLM Dashboard — Professional Dark/Light Theme
+       Inspired by Vercel / Railway / Linear design systems
+    ═══════════════════════════════════════════════════════════ */
+
+    :root {
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #111111;
+      --bg-tertiary: #1a1a1a;
+      --bg-card: #151515;
+      --bg-hover: #1e1e1e;
+      --border: #222222;
+      --border-subtle: #1a1a1a;
+      --text-primary: #fafafa;
+      --text-secondary: #a1a1aa;
+      --text-muted: #52525b;
+      --accent: #6366f1;
+      --accent-hover: #818cf8;
+      --accent-muted: rgba(99, 102, 241, 0.12);
+      --accent-strong: rgba(99, 102, 241, 0.2);
+      --success: #22c55e;
+      --success-muted: rgba(34, 197, 94, 0.12);
+      --warning: #eab308;
+      --warning-muted: rgba(234, 179, 8, 0.12);
+      --danger: #ef4444;
+      --danger-muted: rgba(239, 68, 68, 0.12);
+      --info: #3b82f6;
+      --info-muted: rgba(59, 130, 246, 0.12);
+      --radius: 6px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --radius-xl: 16px;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+      --shadow-lg: 0 8px 24px rgba(0,0,0,0.5);
+      --transition: 0.15s ease;
+      --transition-slow: 0.3s ease;
+      --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      --font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', 'JetBrains Mono', Consolas, monospace;
+    }
+
+    /* Light theme overrides */
+    [data-theme="light"] {
+      --bg-primary: #ffffff;
+      --bg-secondary: #f8f9fa;
+      --bg-tertiary: #f1f3f5;
+      --bg-card: #ffffff;
+      --bg-hover: #f1f3f5;
+      --border: #e5e7eb;
+      --border-subtle: #f1f3f5;
+      --text-primary: #111827;
+      --text-secondary: #6b7280;
+      --text-muted: #9ca3af;
+      --accent-muted: rgba(99, 102, 241, 0.08);
+      --accent-strong: rgba(99, 102, 241, 0.14);
+      --success-muted: rgba(34, 197, 94, 0.08);
+      --warning-muted: rgba(234, 179, 8, 0.08);
+      --danger-muted: rgba(239, 68, 68, 0.08);
+      --info-muted: rgba(59, 130, 246, 0.08);
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+      --shadow-lg: 0 8px 24px rgba(0,0,0,0.1);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { font-size: 16px; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh; min-height: 100dvh;
+      overflow-x: hidden; line-height: 1.5;
+    }
+
+    ::selection { background: var(--accent-muted); color: var(--accent-hover); }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+    .app { display: flex; min-height: 100vh; min-height: 100dvh; }
+
+    /* ─── Sidebar ────────────────────────────────────────────── */
+    .sidebar {
+      width: 250px; background: var(--bg-secondary);
+      border-right: 1px solid var(--border);
+      display: flex; flex-direction: column;
+      position: fixed; top: 0; left: 0; bottom: 0;
+      z-index: 200; transition: transform var(--transition-slow);
+      overflow-y: auto;
+    }
+    .sidebar-brand { padding: 20px 20px 16px; border-bottom: 1px solid var(--border); }
+    .sidebar-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo-mark {
+      width: 32px; height: 32px;
+      background: linear-gradient(135deg, var(--accent), #a855f7);
+      border-radius: var(--radius-md);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 16px; color: #fff;
+      box-shadow: 0 2px 8px rgba(99,102,241,0.3);
+    }
+    .logo-text h1 { font-size: 16px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.3px; line-height: 1.2; }
+    .logo-text span { font-size: 10px; color: var(--text-muted); letter-spacing: 0.5px; text-transform: uppercase; }
+    .sidebar-nav { padding: 8px 0; flex: 1; }
+    .nav-section-label {
+      padding: 16px 20px 6px; font-size: 10px; font-weight: 600;
+      color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;
+    }
+    .nav-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 16px; margin: 1px 8px;
+      color: var(--text-secondary); cursor: pointer;
+      transition: all var(--transition); border-radius: var(--radius);
+      font-size: 13px; font-weight: 450; position: relative; user-select: none;
+    }
+    .nav-item:hover { background: var(--bg-hover); color: var(--text-primary); }
+    .nav-item.active { background: var(--accent-muted); color: var(--accent-hover); }
+    .nav-item.active .nav-icon { color: var(--accent); }
+    .nav-icon { font-size: 16px; width: 20px; text-align: center; opacity: 0.7; flex-shrink: 0; }
+    .nav-item.active .nav-icon { opacity: 1; }
+    .nav-badge {
+      margin-left: auto; font-size: 10px; padding: 1px 6px;
+      border-radius: 10px; background: var(--accent-muted);
+      color: var(--accent); font-weight: 600;
+    }
+    .sidebar-footer { padding: 16px 20px; border-top: 1px solid var(--border); }
+    .sidebar-footer-status { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-muted); }
+    .sidebar-footer-status .health-dot { flex-shrink: 0; }
+    .sidebar-footer-copy { font-size: 10px; color: var(--text-muted); margin-top: 6px; opacity: 0.6; }
+
+    /* ─── Main Content ───────────────────────────────────────── */
+    .main {
+      flex: 1; margin-left: 250px;
+      min-height: 100vh; min-height: 100dvh;
+      display: flex; flex-direction: column;
+    }
+    .main-header {
+      padding: 16px 28px; border-bottom: 1px solid var(--border);
+      background: var(--bg-secondary);
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    }
+    .main-header-left { display: flex; align-items: center; gap: 12px; }
+    .main-header h2 { font-size: 15px; font-weight: 600; letter-spacing: -0.3px; }
+    .header-badge {
+      font-size: 10px; padding: 2px 8px; border-radius: 10px;
+      background: var(--success-muted); color: var(--success);
+      font-weight: 600; display: flex; align-items: center; gap: 4px;
+    }
+    .main-header-right { display: flex; align-items: center; gap: 8px; }
+    .last-refresh { font-size: 11px; color: var(--text-muted); }
+    .main-content { flex: 1; padding: 24px 28px; overflow-y: auto; }
+
+    .page { display: none; animation: fadeIn 0.2s ease; }
+    .page.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ─── Page Header ────────────────────────────────────────── */
+    .page-header { margin-bottom: 24px; }
+    .page-header h2 { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+    .page-header p { color: var(--text-secondary); margin-top: 2px; font-size: 14px; }
+
+    /* ─── Stats Grid ─────────────────────────────────────────── */
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+    .stat-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 18px 20px;
+      transition: border-color var(--transition);
+    }
+    .stat-card:hover { border-color: var(--accent-muted); }
+    .stat-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.6px; font-weight: 500; margin-bottom: 8px; }
+    .stat-value { font-size: 30px; font-weight: 700; letter-spacing: -1.2px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+    .stat-sub { font-size: 12px; color: var(--text-secondary); margin-top: 6px; }
+
+    /* ─── Cards ──────────────────────────────────────────────── */
+    .card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 20px; margin-bottom: 16px;
+      transition: border-color var(--transition);
+    }
+    .card:hover { border-color: #2a2a2a; }
+    [data-theme="light"] .card:hover { border-color: #d1d5db; }
+    .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .card-title { font-size: 14px; font-weight: 600; letter-spacing: -0.2px; }
+    .card-subtitle { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+    /* ─── Health Indicators ──────────────────────────────────── */
+    .health-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      display: inline-block; flex-shrink: 0; position: relative;
+    }
+    .health-dot.healthy { background: var(--success); box-shadow: 0 0 8px rgba(34,197,94,0.4); }
+    .health-dot.healthy::after {
+      content: ''; position: absolute; inset: -2px; border-radius: 50%;
+      border: 1px solid rgba(34,197,94,0.2); animation: pulse-ring 2s ease-out infinite;
+    }
+    .health-dot.degraded { background: var(--warning); box-shadow: 0 0 8px rgba(234,179,8,0.4); }
+    .health-dot.down { background: var(--danger); box-shadow: 0 0 8px rgba(239,68,68,0.4); }
+    .health-dot.unknown { background: var(--text-muted); }
+    @keyframes pulse-ring { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(2.2); opacity: 0; } }
+
+    /* ─── Provider Table ─────────────────────────────────────── */
+    .provider-table-header {
+      display: grid; grid-template-columns: 28px 1.5fr 72px 90px 80px 80px 90px;
+      align-items: center; gap: 10px; padding: 8px 16px;
+      font-size: 10px; font-weight: 600; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--border); margin-bottom: 4px;
+    }
+    .provider-row {
+      display: grid; grid-template-columns: 28px 1.5fr 72px 90px 80px 80px 90px;
+      align-items: center; gap: 10px; padding: 10px 16px;
+      border-radius: var(--radius); font-size: 13px;
+      transition: background var(--transition); cursor: pointer;
+    }
+    .provider-row:hover { background: var(--bg-hover); }
+    .provider-name { font-weight: 550; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .provider-priority {
+      font-size: 10px; padding: 2px 8px; border-radius: 4px;
+      background: var(--accent-muted); color: var(--accent);
+      text-align: center; font-weight: 600;
+    }
+    .provider-stat { font-size: 12px; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+
+    /* ─── Provider Detail Cards ──────────────────────────────── */
+    .provider-detail-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 20px; margin-bottom: 12px;
+      transition: border-color var(--transition);
+    }
+    .provider-detail-card:hover { border-color: #2a2a2a; }
+    [data-theme="light"] .provider-detail-card:hover { border-color: #d1d5db; }
+    .provider-detail-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 8px; }
+    .provider-detail-info { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .provider-detail-name { font-size: 15px; font-weight: 600; }
+    .provider-detail-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; font-size: 13px; }
+    .provider-detail-stat { display: flex; flex-direction: column; gap: 2px; }
+    .provider-detail-stat-label { font-size: 11px; color: var(--text-muted); }
+    .provider-detail-stat-value { font-weight: 550; font-variant-numeric: tabular-nums; }
+    .provider-models-list { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); display: flex; flex-wrap: wrap; gap: 4px; }
+
+    /* ─── Model Grid ─────────────────────────────────────────── */
+    .model-search { margin-bottom: 16px; position: relative; display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+    .model-search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 14px; pointer-events: none; }
+    .model-search input {
+      width: 100%; max-width: 420px; background: var(--bg-tertiary);
+      border: 1px solid var(--border); border-radius: var(--radius-md);
+      padding: 10px 14px 10px 36px; color: var(--text-primary);
+      font-size: 13px; outline: none; transition: border-color var(--transition);
+    }
+    .model-search input:focus { border-color: var(--accent); }
+    .model-search input::placeholder { color: var(--text-muted); }
+    .model-count { font-size: 12px; color: var(--text-muted); }
+
+    .filter-tabs { display: flex; gap: 4px; margin-bottom: 16px; flex-wrap: wrap; }
+    .filter-tab {
+      font-size: 12px; padding: 5px 12px; border-radius: var(--radius);
+      border: 1px solid var(--border); background: transparent;
+      color: var(--text-secondary); cursor: pointer; transition: all var(--transition);
+      font-family: var(--font-sans); font-weight: 500;
+    }
+    .filter-tab:hover { background: var(--bg-hover); color: var(--text-primary); }
+    .filter-tab.active { background: var(--accent-muted); color: var(--accent); border-color: var(--accent-muted); }
+
+    .model-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 10px; }
+    .model-card {
+      background: var(--bg-tertiary); border: 1px solid var(--border);
+      border-radius: var(--radius-md); padding: 14px 16px;
+      transition: all var(--transition); cursor: pointer;
+    }
+    .model-card:hover { border-color: var(--accent-muted); background: var(--bg-hover); }
+    .model-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+    .model-id { font-weight: 600; font-size: 13px; font-family: var(--font-mono); word-break: break-all; line-height: 1.4; }
+    .model-type-badge {
+      font-size: 9px; padding: 2px 6px; border-radius: 3px;
+      background: var(--accent-muted); color: var(--accent);
+      white-space: nowrap; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.3px; flex-shrink: 0;
+    }
+    .model-type-badge.fast { background: var(--success-muted); color: var(--success); }
+    .model-type-badge.reasoning { background: var(--warning-muted); color: var(--warning); }
+    .model-type-badge.code { background: var(--info-muted); color: var(--info); }
+    .model-desc { font-size: 12px; color: var(--text-secondary); margin-top: 6px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .model-providers { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 8px; }
+    .model-provider-badge {
+      font-size: 10px; padding: 2px 7px; border-radius: 3px;
+      background: var(--bg-primary); color: var(--text-secondary);
+      border: 1px solid var(--border);
+    }
+    .model-tokens { font-size: 10px; color: var(--text-muted); margin-top: 6px; }
+
+    /* ─── Chat Playground ────────────────────────────────────── */
+    .playground-controls { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; align-items: center; }
+    .playground-controls select, .playground-controls input[type="number"] {
+      background: var(--bg-tertiary); border: 1px solid var(--border);
+      border-radius: var(--radius-md); padding: 8px 12px;
+      color: var(--text-primary); font-size: 13px; outline: none;
+      transition: border-color var(--transition);
+    }
+    .playground-controls select:focus, .playground-controls input[type="number"]:focus { border-color: var(--accent); }
+    .playground-controls select { min-width: 200px; font-family: var(--font-mono); }
+    .playground-controls input[type="number"] { width: 100px; font-family: var(--font-mono); }
+
+    .toggle-label { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-secondary); cursor: pointer; user-select: none; }
+    .toggle-switch {
+      position: relative; width: 32px; height: 18px; appearance: none;
+      background: var(--border); border-radius: 9px; outline: none;
+      cursor: pointer; transition: background var(--transition);
+    }
+    .toggle-switch:checked { background: var(--accent); }
+    .toggle-switch::before {
+      content: ''; position: absolute; top: 2px; left: 2px;
+      width: 14px; height: 14px; background: white;
+      border-radius: 50%; transition: transform var(--transition);
+    }
+    .toggle-switch:checked::before { transform: translateX(14px); }
+
+    .playground-advanced {
+      display: flex; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; align-items: center;
+      padding: 12px; background: var(--bg-tertiary); border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+    }
+    .playground-advanced label { font-size: 12px; color: var(--text-secondary); display: flex; align-items: center; gap: 6px; }
+    .playground-advanced input[type="range"] { width: 100px; accent-color: var(--accent); }
+    .playground-advanced .temp-value { font-size: 12px; color: var(--accent); font-weight: 600; font-variant-numeric: tabular-nums; min-width: 28px; }
+    .system-prompt-area {
+      width: 100%; background: var(--bg-primary); border: 1px solid var(--border);
+      border-radius: var(--radius-md); padding: 8px 12px;
+      color: var(--text-primary); font-size: 13px; font-family: var(--font-sans);
+      outline: none; resize: vertical; min-height: 50px; max-height: 120px;
+      transition: border-color var(--transition);
+    }
+    .system-prompt-area:focus { border-color: var(--accent); }
+    .system-prompt-area::placeholder { color: var(--text-muted); }
+
+    .chat-container { display: flex; flex-direction: column; height: calc(100vh - 340px); height: calc(100dvh - 340px); min-height: 280px; }
+    .chat-messages {
+      flex: 1; overflow-y: auto; padding: 16px;
+      background: var(--bg-primary); border-radius: var(--radius-lg);
+      border: 1px solid var(--border); margin-bottom: 10px;
+    }
+    .chat-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: var(--text-muted); gap: 8px; }
+    .chat-empty-icon { font-size: 32px; opacity: 0.4; }
+    .chat-empty-text { font-size: 13px; }
+
+    .chat-msg {
+      margin-bottom: 14px; padding: 10px 14px;
+      border-radius: var(--radius-md); max-width: 85%; animation: msgIn 0.15s ease; position: relative;
+    }
+    @keyframes msgIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+    .chat-msg.user { background: var(--accent-muted); margin-left: auto; border-bottom-right-radius: 2px; }
+    .chat-msg.assistant { background: var(--bg-tertiary); border-bottom-left-radius: 2px; }
+    .chat-msg-role { font-size: 10px; color: var(--text-muted); margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.6px; font-weight: 600; }
+    .chat-msg.user .chat-msg-role { color: var(--accent); }
+    .chat-msg.assistant .chat-msg-role { color: var(--success); }
+    .chat-msg-content { white-space: pre-wrap; font-size: 14px; line-height: 1.6; word-break: break-word; }
+    .chat-msg-actions { position: absolute; top: 6px; right: 8px; display: flex; gap: 4px; opacity: 0; transition: opacity var(--transition); }
+    .chat-msg:hover .chat-msg-actions { opacity: 1; }
+    .chat-msg-action-btn {
+      font-size: 11px; padding: 2px 6px; border-radius: 3px;
+      background: var(--bg-hover); border: 1px solid var(--border);
+      color: var(--text-muted); cursor: pointer; transition: all var(--transition);
+    }
+    .chat-msg-action-btn:hover { color: var(--text-primary); background: var(--bg-card); }
+
+    .streaming-cursor::after { content: '\2588'; animation: blink 0.8s step-end infinite; color: var(--accent); font-size: 13px; }
+    @keyframes blink { 50% { opacity: 0; } }
+    .chat-input-area { display: flex; gap: 8px; }
+    .chat-input {
+      flex: 1; background: var(--bg-tertiary); border: 1px solid var(--border);
+      border-radius: var(--radius-md); padding: 10px 14px;
+      color: var(--text-primary); font-size: 14px; font-family: var(--font-sans);
+      outline: none; transition: border-color var(--transition);
+    }
+    .chat-input:focus { border-color: var(--accent); }
+    .chat-input::placeholder { color: var(--text-muted); }
+
+    /* ─── Buttons ────────────────────────────────────────────── */
+    .btn {
+      padding: 8px 16px; border-radius: var(--radius-md);
+      border: 1px solid transparent; font-size: 13px; font-weight: 500;
+      cursor: pointer; transition: all var(--transition); font-family: var(--font-sans);
+      display: inline-flex; align-items: center; gap: 6px; user-select: none;
+    }
+    .btn-primary { background: var(--accent); color: white; }
+    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-secondary { background: transparent; color: var(--text-secondary); border: 1px solid var(--border); }
+    .btn-secondary:hover { background: var(--bg-hover); color: var(--text-primary); border-color: #333; }
+    [data-theme="light"] .btn-secondary:hover { border-color: #9ca3af; }
+    .btn-ghost { background: transparent; color: var(--text-secondary); border: none; padding: 6px 10px; }
+    .btn-ghost:hover { color: var(--text-primary); background: var(--bg-hover); }
+    .btn-sm { font-size: 11px; padding: 4px 10px; }
+    .btn-danger { background: var(--danger-muted); color: var(--danger); border: 1px solid rgba(239,68,68,0.15); }
+    .btn-danger:hover { background: rgba(239,68,68,0.2); }
+
+    /* ─── Code Blocks ───────────────────────────────────────── */
+    .code-block { position: relative; background: var(--bg-primary); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; }
+    .code-block-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 8px 14px; background: var(--bg-tertiary);
+      border-bottom: 1px solid var(--border);
+      font-size: 11px; color: var(--text-muted); font-weight: 500;
+    }
+    .code-block pre {
+      padding: 14px 16px; font-size: 12px; line-height: 1.7;
+      overflow-x: auto; color: var(--text-secondary); font-family: var(--font-mono);
+    }
+    .code-block .kw { color: #c678dd; }
+    .code-block .str { color: #98c379; }
+    .code-block .fn { color: #61afef; }
+    .code-block .cm { color: var(--text-muted); }
+    .code-block .op { color: #56b6c2; }
+    .code-block .num { color: #d19a66; }
+    [data-theme="light"] .code-block .kw { color: #a855f7; }
+    [data-theme="light"] .code-block .str { color: #16a34a; }
+    [data-theme="light"] .code-block .fn { color: #2563eb; }
+    [data-theme="light"] .code-block .op { color: #0891b2; }
+    [data-theme="light"] .code-block .num { color: #ea580c; }
+
+    .method-badge { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 3px; font-family: var(--font-mono); letter-spacing: 0.3px; }
+    .method-get { background: rgba(34,197,94,0.12); color: var(--success); }
+    .method-post { background: var(--accent-muted); color: var(--accent); }
+    .endpoint-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; font-size: 13px; border-bottom: 1px solid var(--border-subtle); }
+    .endpoint-row:last-child { border-bottom: none; }
+    .endpoint-path { font-family: var(--font-mono); font-size: 12px; color: var(--text-primary); }
+    .endpoint-desc { color: var(--text-muted); font-size: 12px; margin-left: auto; }
+
+    /* ─── Loading ────────────────────────────────────────────── */
+    .loading-spinner {
+      display: inline-block; width: 14px; height: 14px;
+      border: 2px solid var(--border); border-top-color: var(--accent);
+      border-radius: 50%; animation: spin 0.6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .skeleton {
+      background: linear-gradient(90deg, var(--bg-tertiary) 25%, var(--bg-hover) 50%, var(--bg-tertiary) 75%);
+      background-size: 200% 100%; animation: shimmer 1.5s ease infinite; border-radius: var(--radius);
+    }
+    @keyframes shimmer { to { background-position: -200% 0; } }
+
+    /* ─── Toast Notifications ────────────────────────────────── */
+    .toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 8px; }
+    .toast {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-md); padding: 12px 16px; font-size: 13px;
+      box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: 8px;
+      animation: toastIn 0.2s ease; max-width: 360px;
+    }
+    .toast.success { border-left: 3px solid var(--success); }
+    .toast.error { border-left: 3px solid var(--danger); }
+    .toast.info { border-left: 3px solid var(--accent); }
+    @keyframes toastIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+
+    /* ─── Activity Log ───────────────────────────────────────── */
+    .activity-log { max-height: 300px; overflow-y: auto; }
+    .activity-item {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 8px 0; font-size: 12px; border-bottom: 1px solid var(--border-subtle);
+    }
+    .activity-item:last-child { border-bottom: none; }
+    .activity-dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+    .activity-dot.success { background: var(--success); }
+    .activity-dot.error { background: var(--danger); }
+    .activity-dot.info { background: var(--accent); }
+    .activity-dot.warn { background: var(--warning); }
+    .activity-time { color: var(--text-muted); font-family: var(--font-mono); font-size: 11px; white-space: nowrap; }
+    .activity-text { color: var(--text-secondary); flex: 1; }
+
+    /* ─── Logs Table ─────────────────────────────────────────── */
+    .log-filters { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; align-items: center; }
+    .log-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .log-table th {
+      text-align: left; padding: 8px 10px; font-size: 10px;
+      color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--border); font-weight: 600;
+    }
+    .log-table td { padding: 6px 10px; border-bottom: 1px solid var(--border-subtle); font-variant-numeric: tabular-nums; }
+    .log-table tr:hover td { background: var(--bg-hover); }
+    .log-status-ok { color: var(--success); }
+    .log-status-err { color: var(--danger); }
+    .log-scroll { max-height: 500px; overflow-y: auto; }
+
+    /* ─── BYOAPI Form ────────────────────────────────────────── */
+    .form-group { margin-bottom: 14px; }
+    .form-label { display: block; font-size: 12px; font-weight: 500; color: var(--text-secondary); margin-bottom: 4px; }
+    .form-input {
+      width: 100%; max-width: 500px; background: var(--bg-tertiary);
+      border: 1px solid var(--border); border-radius: var(--radius-md);
+      padding: 8px 12px; color: var(--text-primary); font-size: 13px;
+      outline: none; transition: border-color var(--transition);
+    }
+    .form-input:focus { border-color: var(--accent); }
+    .form-input::placeholder { color: var(--text-muted); }
+
+    /* ─── MCP ────────────────────────────────────────────────── */
+    .mcp-section { margin-bottom: 20px; }
+    .mcp-tool-card {
+      background: var(--bg-tertiary); border: 1px solid var(--border);
+      border-radius: var(--radius-md); padding: 12px 14px; margin-bottom: 8px;
+    }
+    .mcp-tool-name { font-weight: 600; font-size: 13px; font-family: var(--font-mono); }
+    .mcp-tool-desc { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+    .mcp-exec-form { display: flex; flex-direction: column; gap: 8px; }
+    .mcp-result {
+      background: var(--bg-primary); border: 1px solid var(--border);
+      border-radius: var(--radius-md); padding: 12px;
+      font-family: var(--font-mono); font-size: 12px; white-space: pre-wrap;
+      max-height: 300px; overflow-y: auto; color: var(--text-secondary);
+    }
+
+    /* ─── Settings ───────────────────────────────────────────── */
+    .settings-group { margin-bottom: 24px; }
+    .settings-group-title { font-size: 14px; font-weight: 600; margin-bottom: 12px; }
+    .settings-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 0; border-bottom: 1px solid var(--border-subtle);
+      gap: 12px; flex-wrap: wrap;
+    }
+    .settings-row:last-child { border-bottom: none; }
+    .settings-label { font-size: 13px; }
+    .settings-desc { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .settings-control { flex-shrink: 0; }
+    .settings-control select {
+      background: var(--bg-tertiary); border: 1px solid var(--border);
+      border-radius: var(--radius-md); padding: 6px 10px;
+      color: var(--text-primary); font-size: 13px;
+    }
+
+    /* ─── Mobile Header ──────────────────────────────────────── */
+    .mobile-header {
+      display: none; padding: 10px 16px; background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border); align-items: center;
+      gap: 12px; position: sticky; top: 0; z-index: 100;
+    }
+    .hamburger { font-size: 20px; cursor: pointer; color: var(--text-primary); padding: 4px; line-height: 1; }
+    .mobile-brand { font-size: 14px; font-weight: 600; }
+
+    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 199; }
+    .sidebar-overlay.active { display: block; }
+
+    .empty-state { text-align: center; padding: 48px 20px; color: var(--text-muted); }
+    .empty-state-icon { font-size: 36px; margin-bottom: 12px; opacity: 0.4; }
+    .empty-state-title { font-size: 15px; font-weight: 600; color: var(--text-secondary); margin-bottom: 4px; }
+    .empty-state-desc { font-size: 13px; }
+
+    /* ─── Quick Actions ──────────────────────────────────────── */
+    .quick-actions { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+
+    /* ─── Responsive ─────────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .sidebar { transform: translateX(-100%); width: 280px; }
+      .sidebar.open { transform: translateX(0); }
+      .main { margin-left: 0; }
+      .mobile-header { display: flex; }
+      .main-header { display: none; }
+      .main-content { padding: 16px; }
+      .stats-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+      .stat-card { padding: 14px 16px; }
+      .stat-value { font-size: 24px; }
+      .provider-table-header { display: none; }
+      .provider-row { grid-template-columns: 24px 1fr auto; gap: 8px; font-size: 12px; }
+      .provider-row .hide-mobile { display: none; }
+      .chat-container { height: calc(100vh - 260px); height: calc(100dvh - 260px); }
+      .chat-input-area { flex-direction: column; }
+      .playground-controls select { min-width: 140px; }
+      .page-header h2 { font-size: 18px; }
+      .model-grid { grid-template-columns: 1fr; }
+      .playground-advanced { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ─── Utility ────────────────────────────────────────────── */
+    .flex { display: flex; } .items-center { align-items: center; }
+    .justify-between { justify-content: space-between; } .gap-2 { gap: 8px; }
+    .gap-3 { gap: 12px; } .text-muted { color: var(--text-muted); }
+    .text-secondary { color: var(--text-secondary); } .text-accent { color: var(--accent); }
+    .text-sm { font-size: 12px; } .text-xs { font-size: 11px; }
+    .font-mono { font-family: var(--font-mono); } .mt-2 { margin-top: 8px; }
+    .mt-4 { margin-top: 16px; } .mb-2 { margin-bottom: 8px; } .mb-4 { margin-bottom: 16px; }
+    .w-full { width: 100%; }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="mobile-header">
+      <span class="hamburger" onclick="toggleSidebar()">&#9776;</span>
+      <span class="mobile-brand">Jeumpa LLM</span>
+      <span class="health-dot healthy" id="mobile-health-dot" style="margin-left:auto"></span>
+    </div>
+
+    <nav class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="sidebar-logo">
+          <div class="logo-mark">P</div>
+          <div class="logo-text">
+            <h1>Jeumpa LLM</h1>
+            <span>AI Gateway v6.0</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-nav">
+        <div class="nav-section-label">Monitor</div>
+        <div class="nav-item active" data-page="overview" onclick="showPage('overview')">
+          <span class="nav-icon">&#9632;</span> Overview
+        </div>
+        <div class="nav-item" data-page="providers" onclick="showPage('providers')">
+          <span class="nav-icon">&#9881;</span> Providers
+          <span class="nav-badge" id="nav-provider-count">-</span>
+        </div>
+        <div class="nav-item" data-page="models" onclick="showPage('models')">
+          <span class="nav-icon">&#9733;</span> Models
+          <span class="nav-badge" id="nav-model-count">-</span>
+        </div>
+        <div class="nav-item" data-page="logs" onclick="showPage('logs')">
+          <span class="nav-icon">&#128220;</span> Logs
+        </div>
+
+        <div class="nav-section-label">Interact</div>
+        <div class="nav-item" data-page="playground" onclick="showPage('playground')">
+          <span class="nav-icon">&#9998;</span> Playground
+        </div>
+
+        <div class="nav-section-label">Integrate</div>
+        <div class="nav-item" data-page="api" onclick="showPage('api')">
+          <span class="nav-icon">&#128268;</span> API Reference
+        </div>
+        <div class="nav-item" data-page="byoapi" onclick="showPage('byoapi')">
+          <span class="nav-icon">&#128274;</span> BYOAPI
+        </div>
+        <div class="nav-item" data-page="mcp" onclick="showPage('mcp')">
+          <span class="nav-icon">&#128295;</span> MCP
+        </div>
+
+        <div class="nav-section-label">Analyze</div>
+        <div class="nav-item" data-page="compare" onclick="showPage('compare')">
+          <span class="nav-icon">&#9878;</span> Compare Models
+        </div>
+        <div class="nav-item" data-page="analytics" onclick="showPage('analytics')">
+          <span class="nav-icon">&#128200;</span> Analytics
+        </div>
+
+        <div class="nav-section-label">Configure</div>
+        <div class="nav-item" data-page="settings" onclick="showPage('settings')">
+          <span class="nav-icon">&#9881;</span> Settings
+        </div>
+        <div class="nav-item" data-page="domain" onclick="showPage('domain')">
+          <span class="nav-icon">&#127760;</span> Custom Domain
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-footer-status">
+          <span class="health-dot unknown" id="sidebar-health-dot"></span>
+          <span id="sidebar-status-text">Checking...</span>
+        </div>
+        <div class="sidebar-footer-copy">&copy; 2026 Jeumpa LLM &mdash; The Biggest Free Multi-LLM Hub</div>
+      </div>
+    </nav>
+
+    <main class="main">
+      <header class="main-header">
+        <div class="main-header-left">
+          <h2 id="main-header-title">Overview</h2>
+          <span class="header-badge" id="gateway-status-badge">
+            <span class="health-dot healthy" style="width:6px;height:6px"></span>
+            Operational
+          </span>
+        </div>
+        <div class="main-header-right">
+          <span class="last-refresh" id="last-refresh">Refreshing...</span>
+          <button class="btn btn-ghost btn-sm" onclick="refreshAll()" title="Refresh">&#8635; Refresh</button>
+        </div>
+      </header>
+
+      <div class="main-content">
+        <!-- ═══ 1. Overview Page ═══ -->
+        <div class="page active" id="page-overview">
+          <div class="page-header">
+            <h2>Dashboard Overview</h2>
+            <p>Real-time status and health of your Jeumpa LLM gateway</p>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-label">Active Providers</div>
+              <div class="stat-value" id="stat-providers">&mdash;</div>
+              <div class="stat-sub" id="stat-providers-sub">Loading...</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Available Models</div>
+              <div class="stat-value" id="stat-models">&mdash;</div>
+              <div class="stat-sub">Across all providers</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Uptime</div>
+              <div class="stat-value" id="stat-uptime">&mdash;</div>
+              <div class="stat-sub" id="stat-env">Loading...</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Gateway Version</div>
+              <div class="stat-value" id="stat-version">6.0</div>
+              <div class="stat-sub">The Biggest Free Multi-LLM Hub</div>
+            </div>
+          </div>
+
+          <div class="quick-actions">
+            <button class="btn btn-secondary btn-sm" onclick="refreshHealth()">&#8635; Refresh Health</button>
+            <button class="btn btn-secondary btn-sm" onclick="syncModels()">&#128260; Sync Models</button>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Provider Health Status</div>
+                <div class="card-subtitle">Live health across all enabled providers</div>
+              </div>
+              <button class="btn btn-secondary btn-sm" onclick="refreshAll()">&#8635; Refresh</button>
+            </div>
+            <div class="provider-table-header">
+              <span></span><span>Provider</span><span>Priority</span>
+              <span>Models</span><span>Latency</span><span>Errors</span><span>Health</span>
+            </div>
+            <div id="provider-health-list">
+              <div class="provider-row"><span class="loading-spinner"></span><span style="color:var(--text-muted)">Loading providers...</span></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Activity Log</div>
+                <div class="card-subtitle">Recent events and status changes</div>
+              </div>
+            </div>
+            <div class="activity-log" id="activity-log">
+              <div class="activity-item"><span class="activity-dot info"></span><span class="activity-time">--:--:--</span><span class="activity-text">Waiting for data...</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══ 2. Providers Page ═══ -->
+        <div class="page" id="page-providers">
+          <div class="page-header">
+            <h2>Providers</h2>
+            <p>Detailed status, metrics, and health checks for each provider</p>
+          </div>
+          <div id="providers-detail">
+            <div class="empty-state"><div class="loading-spinner" style="width:24px;height:24px;margin:0 auto"></div><div class="mt-2 text-secondary">Loading providers...</div></div>
+          </div>
+        </div>
+
+        <!-- ═══ 3. Models Page ═══ -->
+        <div class="page" id="page-models">
+          <div class="page-header">
+            <h2>Available Models</h2>
+            <p>All models across all providers with routing information</p>
+          </div>
+          <div class="model-search">
+            <span class="model-search-icon">&#128269;</span>
+            <input type="text" placeholder="Search models by name, description, or provider..." id="model-search" oninput="filterModels()">
+            <span class="model-count" id="model-count"></span>
+          </div>
+          <div class="filter-tabs" id="model-filter-tabs">
+            <button class="filter-tab active" data-type="all" onclick="setModelFilter('all', this)">All</button>
+            <button class="filter-tab" data-type="fast" onclick="setModelFilter('fast', this)">Fast</button>
+            <button class="filter-tab" data-type="general" onclick="setModelFilter('general', this)">General</button>
+            <button class="filter-tab" data-type="code" onclick="setModelFilter('code', this)">Code</button>
+            <button class="filter-tab" data-type="reasoning" onclick="setModelFilter('reasoning', this)">Reasoning</button>
+          </div>
+          <div class="model-grid" id="model-grid">
+            <div class="empty-state"><div class="loading-spinner" style="width:24px;height:24px;margin:0 auto"></div><div class="mt-2 text-secondary">Loading models...</div></div>
+          </div>
+        </div>
+
+        <!-- ═══ 4. Playground Page ═══ -->
+        <div class="page" id="page-playground">
+          <div class="page-header">
+            <h2>Chat Playground</h2>
+            <p>Test any model through the OpenAI/Anthropic-compatible API</p>
+          </div>
+          <div class="playground-controls">
+            <select id="chat-model"><option value="">Loading models...</option></select>
+            <select id="chat-format">
+              <option value="openai">OpenAI Format</option>
+              <option value="anthropic">Anthropic Format</option>
+            </select>
+            <label class="toggle-label"><input type="checkbox" class="toggle-switch" id="chat-stream" checked> Stream</label>
+            <button class="btn btn-secondary btn-sm" onclick="clearChat()">&#128465; Clear</button>
+          </div>
+          <div class="playground-advanced">
+            <label>Temperature: <input type="range" id="chat-temp" min="0" max="2" step="0.1" value="0.7" oninput="document.getElementById('temp-val').textContent=this.value"> <span class="temp-value" id="temp-val">0.7</span></label>
+            <label>Max Tokens: <input type="number" id="chat-max-tokens" value="2048" min="1" max="128000" style="width:90px"></label>
+          </div>
+          <div style="margin-bottom:12px">
+            <textarea class="system-prompt-area" id="chat-system-prompt" placeholder="System prompt (optional)..." rows="2"></textarea>
+          </div>
+          <div class="chat-container">
+            <div class="chat-messages" id="chat-messages">
+              <div class="chat-empty">
+                <div class="chat-empty-icon">&#128172;</div>
+                <div class="chat-empty-text">Select a model and start chatting</div>
+              </div>
+            </div>
+            <div class="chat-input-area">
+              <input type="text" class="chat-input" id="chat-input" placeholder="Type your message... (Enter to send)" onkeydown="if(event.key==='Enter'&&!event.shiftKey)sendChat()">
+              <button class="btn btn-primary" id="chat-send" onclick="sendChat()">Send</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══ 5. API Reference Page ═══ -->
+        <div class="page" id="page-api">
+          <div class="page-header">
+            <h2>API Reference</h2>
+            <p>Complete endpoint documentation with code examples</p>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><div class="card-title">API Endpoints</div></div>
+            <div>
+              <div class="endpoint-row"><span class="method-badge method-get">GET</span><span class="endpoint-path">/health</span><span class="endpoint-desc">Health check</span></div>
+              <div class="endpoint-row"><span class="method-badge method-get">GET</span><span class="endpoint-path">/status</span><span class="endpoint-desc">Full gateway status</span></div>
+              <div class="endpoint-row"><span class="method-badge method-get">GET</span><span class="endpoint-path">/models</span><span class="endpoint-desc">Available models list</span></div>
+              <div class="endpoint-row"><span class="method-badge method-get">GET</span><span class="endpoint-path">/providers</span><span class="endpoint-desc">Provider stats</span></div>
+              <div class="endpoint-row"><span class="method-badge method-get">GET</span><span class="endpoint-path">/providers/:name/health</span><span class="endpoint-desc">Provider health check</span></div>
+              <div class="endpoint-row"><span class="method-badge method-post">POST</span><span class="endpoint-path">/v1/chat/completions</span><span class="endpoint-desc">OpenAI-compatible chat</span></div>
+              <div class="endpoint-row"><span class="method-badge method-post">POST</span><span class="endpoint-path">/v1/messages</span><span class="endpoint-desc">Anthropic-compatible messages</span></div>
+              <div class="endpoint-row"><span class="method-badge method-post">POST</span><span class="endpoint-path">/chat</span><span class="endpoint-desc">Auto-routed native endpoint</span></div>
+              <div class="endpoint-row"><span class="method-badge method-post">POST</span><span class="endpoint-path">/mcp</span><span class="endpoint-desc">MCP JSON-RPC 2.0 endpoint</span></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><div class="card-title">Quick Start &mdash; curl</div></div>
+            <div class="code-block">
+              <div class="code-block-header"><span>Shell</span><button class="btn btn-ghost btn-sm" onclick="copyCode(this)">&#128203; Copy</button></div>
+              <pre><span class="cm"># OpenAI-compatible chat completion</span>
+curl -X POST <span class="str">${BASE}/v1/chat/completions</span> \
+  -H <span class="str">"Content-Type: application/json"</span> \
+  -d <span class="str">'{
+    "model": "auto",
+    "messages": [{"role": "user", "content": "Hello"}],
+    "stream": false
+  }'</span>
+
+<span class="cm"># Anthropic-compatible messages</span>
+curl -X POST <span class="str">${BASE}/v1/messages</span> \
+  -H <span class="str">"Content-Type: application/json"</span> \
+  -d <span class="str">'{
+    "model": "claude-sonnet-4-20250514",
+    "messages": [{"role": "user", "content": "Hello"}],
+    "max_tokens": 1024
+  }'</span>
+
+<span class="cm"># Native auto-routed</span>
+curl -X POST <span class="str">${BASE}/chat</span> \
+  -H <span class="str">"Content-Type: application/json"</span> \
+  -d <span class="str">'{"message": "Hello", "model": "auto"}'</span>
+
+<span class="cm"># Streaming with SSE</span>
+curl -N -X POST <span class="str">${BASE}/v1/chat/completions</span> \
+  -H <span class="str">"Content-Type: application/json"</span> \
+  -d <span class="str">'{"model": "auto", "messages": [{"role": "user", "content": "Hi"}], "stream": true}'</span></pre>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><div class="card-title">Python &mdash; OpenAI SDK</div></div>
+            <div class="code-block">
+              <div class="code-block-header"><span>Python</span><button class="btn btn-ghost btn-sm" onclick="copyCode(this)">&#128203; Copy</button></div>
+              <pre><span class="kw">from</span> openai <span class="kw">import</span> OpenAI
+
+client = <span class="fn">OpenAI</span>(
+    base_url=<span class="str">"http://localhost:3333/v1"</span>,
+    api_key=<span class="str">"not-needed"</span>
+)
+
+<span class="cm"># Non-streaming</span>
+response = client.chat.completions.<span class="fn">create</span>(
+    model=<span class="str">"auto"</span>,
+    messages=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"Hello!"</span>}]
+)
+<span class="fn">print</span>(response.choices[<span class="num">0</span>].message.content)
+
+<span class="cm"># Streaming</span>
+stream = client.chat.completions.<span class="fn">create</span>(
+    model=<span class="str">"auto"</span>,
+    messages=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"Explain quantum computing"</span>}],
+    stream=<span class="kw">True</span>
+)
+<span class="kw">for</span> chunk <span class="kw">in</span> stream:
+    content = chunk.choices[<span class="num">0</span>].delta.content
+    <span class="kw">if</span> content: <span class="fn">print</span>(content, end=<span class="str">""</span>, flush=<span class="kw">True</span>)</pre>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><div class="card-title">JavaScript &mdash; Fetch API</div></div>
+            <div class="code-block">
+              <div class="code-block-header"><span>JavaScript</span><button class="btn btn-ghost btn-sm" onclick="copyCode(this)">&#128203; Copy</button></div>
+              <pre><span class="cm">// Non-streaming</span>
+<span class="kw">const</span> response = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">"http://localhost:3333/v1/chat/completions"</span>, {
+  method: <span class="str">"POST"</span>,
+  headers: { <span class="str">"Content-Type"</span>: <span class="str">"application/json"</span> },
+  body: <span class="fn">JSON.stringify</span>({
+    model: <span class="str">"auto"</span>,
+    messages: [{ role: <span class="str">"user"</span>, content: <span class="str">"Hello!"</span> }]
+  })
+});
+<span class="kw">const</span> data = <span class="kw">await</span> response.<span class="fn">json</span>();
+console.<span class="fn">log</span>(data.choices[<span class="num">0</span>].message.content);
+
+<span class="cm">// Streaming with SSE</span>
+<span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">"http://localhost:3333/v1/chat/completions"</span>, {
+  method: <span class="str">"POST"</span>,
+  headers: { <span class="str">"Content-Type"</span>: <span class="str">"application/json"</span> },
+  body: <span class="fn">JSON.stringify</span>({
+    model: <span class="str">"auto"</span>, stream: <span class="kw">true</span>,
+    messages: [{ role: <span class="str">"user"</span>, content: <span class="str">"Hello!"</span> }]
+  })
+});
+<span class="kw">const</span> reader = res.body.<span class="fn">getReader</span>();
+<span class="kw">const</span> decoder = <span class="kw">new</span> <span class="fn">TextDecoder</span>();
+<span class="kw">while</span> (<span class="kw">true</span>) {
+  <span class="kw">const</span> { done, value } = <span class="kw">await</span> reader.<span class="fn">read</span>();
+  <span class="kw">if</span> (done) <span class="kw">break</span>;
+  <span class="kw">const</span> chunk = decoder.<span class="fn">decode</span>(value);
+  <span class="cm">// Parse SSE lines from chunk</span>
+  chunk.<span class="fn">split</span>(<span class="str">"\n"</span>).<span class="fn">forEach</span>(line => {
+    <span class="kw">if</span> (line.<span class="fn">startsWith</span>(<span class="str">"data: "</span>)) {
+      <span class="kw">const</span> data = line.<span class="fn">slice</span>(<span class="num">6</span>);
+      <span class="kw">if</span> (data === <span class="str">"[DONE]"</span>) <span class="kw">return</span>;
+      <span class="kw">const</span> parsed = <span class="fn">JSON.parse</span>(data);
+      <span class="kw">const</span> content = parsed.choices?.[<span class="num">0</span>]?.delta?.content || <span class="str">""</span>;
+      <span class="kw">if</span> (content) process.stdout.<span class="fn">write</span>(content);
+    }
+  });
+}</pre>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><div class="card-title">MCP JSON-RPC 2.0</div></div>
+            <div class="code-block">
+              <div class="code-block-header"><span>Shell</span><button class="btn btn-ghost btn-sm" onclick="copyCode(this)">&#128203; Copy</button></div>
+              <pre><span class="cm"># List MCP tools</span>
+curl -X POST <span class="str">${BASE}/mcp</span> \
+  -H <span class="str">"Content-Type: application/json"</span> \
+  -d <span class="str">'{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "tools/list",
+    "params": {}
+  }'</span>
+
+<span class="cm"># Call an MCP tool</span>
+curl -X POST <span class="str">${BASE}/mcp</span> \
+  -H <span class="str">"Content-Type: application/json"</span> \
+  -d <span class="str">'{
+    "jsonrpc": "2.0",
+    "id": 2,
+    "method": "tools/call",
+    "params": {
+      "name": "tool_name",
+      "arguments": {"key": "value"}
+    }
+  }'</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══ 6. BYOAPI Page ═══ -->
+        <div class="page" id="page-byoapi">
+          <div class="page-header">
+            <h2>BYOAPI &mdash; Bring Your Own API</h2>
+            <p>Add custom API providers to extend your gateway</p>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><div class="card-title">Add Custom Provider</div></div>
+            <div class="form-group">
+              <label class="form-label">Provider Name</label>
+              <input type="text" class="form-input" id="byoapi-name" placeholder="e.g. My Custom LLM">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Base URL</label>
+              <input type="text" class="form-input" id="byoapi-url" placeholder="e.g. https://api.example.com/v1">
+            </div>
+            <div class="form-group">
+              <label class="form-label">API Key</label>
+              <input type="password" class="form-input" id="byoapi-key" placeholder="sk-... (stored in browser only)">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Models (comma-separated)</label>
+              <input type="text" class="form-input" id="byoapi-models" placeholder="e.g. gpt-4, claude-3, llama-3">
+            </div>
+            <button class="btn btn-primary" onclick="addBYOAPI()">Add Provider</button>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><div class="card-title">Configured Providers</div></div>
+            <div id="byoapi-list">
+              <div class="empty-state">
+                <div class="empty-state-icon">&#128274;</div>
+                <div class="empty-state-title">No custom providers</div>
+                <div class="empty-state-desc">Add your own API provider above</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══ 7. Logs Page ═══ -->
+        <div class="page" id="page-logs">
+          <div class="page-header">
+            <h2>Request Logs</h2>
+            <p>Real-time log of API requests through the gateway</p>
+          </div>
+          <div class="log-filters">
+            <button class="filter-tab active" data-log="all" onclick="setLogFilter('all', this)">All</button>
+            <button class="filter-tab" data-log="success" onclick="setLogFilter('success', this)">Success</button>
+            <button class="filter-tab" data-log="error" onclick="setLogFilter('error', this)">Error</button>
+            <button class="btn btn-secondary btn-sm" onclick="clearLogs()" style="margin-left:auto">&#128465; Clear Logs</button>
+          </div>
+          <div class="log-scroll">
+            <table class="log-table">
+              <thead>
+                <tr><th>Time</th><th>Method</th><th>Path</th><th>Model</th><th>Provider</th><th>Latency</th><th>Status</th></tr>
+              </thead>
+              <tbody id="log-tbody">
+                <tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:24px">No logs yet. Make a chat request to see it here.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ═══ 8. MCP Page ═══ -->
+        <div class="page" id="page-mcp">
+          <div class="page-header">
+            <h2>MCP &mdash; Model Context Protocol</h2>
+            <p>Discover and execute MCP tools and resources</p>
+          </div>
+
+          <div class="mcp-section">
+            <div class="card">
+              <div class="card-header">
+                <div><div class="card-title">MCP Tools</div><div class="card-subtitle">Available tools from the MCP server</div></div>
+                <button class="btn btn-secondary btn-sm" onclick="loadMCPTools()">&#8635; Refresh</button>
+              </div>
+              <div id="mcp-tools-list">
+                <div class="empty-state"><div class="loading-spinner" style="width:20px;height:20px;margin:0 auto"></div><div class="mt-2 text-secondary">Loading tools...</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mcp-section">
+            <div class="card">
+              <div class="card-header">
+                <div><div class="card-title">MCP Resources</div><div class="card-subtitle">Available resources from the MCP server</div></div>
+                <button class="btn btn-secondary btn-sm" onclick="loadMCPResources()">&#8635; Refresh</button>
+              </div>
+              <div id="mcp-resources-list">
+                <div class="empty-state"><div class="loading-spinner" style="width:20px;height:20px;margin:0 auto"></div><div class="mt-2 text-secondary">Loading resources...</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mcp-section">
+            <div class="card">
+              <div class="card-header"><div class="card-title">Execute MCP Tool</div></div>
+              <div class="mcp-exec-form">
+                <div class="form-group">
+                  <label class="form-label">Tool Name</label>
+                  <select class="form-input" id="mcp-tool-select" style="max-width:400px"><option value="">Select a tool...</option></select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Arguments (JSON)</label>
+                  <textarea class="form-input" id="mcp-tool-args" rows="4" style="max-width:500px;resize:vertical;font-family:var(--font-mono)" placeholder='{"key": "value"}'>{}</textarea>
+                </div>
+                <button class="btn btn-primary" onclick="executeMCPTool()">Execute</button>
+              </div>
+              <div class="mt-4">
+                <label class="form-label">Result</label>
+                <div class="mcp-result" id="mcp-result">No results yet</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══ 9. Settings Page ═══ -->
+        <div class="page" id="page-settings">
+          <div class="page-header">
+            <h2>Settings</h2>
+            <p>Configure your dashboard preferences</p>
+          </div>
+
+          <div class="card">
+            <div class="settings-group">
+              <div class="settings-group-title">General</div>
+              <div class="settings-row">
+                <div><div class="settings-label">Gateway URL</div><div class="settings-desc">Base URL for API requests</div></div>
+                <div class="settings-control"><input type="text" class="form-input" id="settings-gateway-url" style="width:280px" value=""></div>
+              </div>
+              <div class="settings-row">
+                <div><div class="settings-label">Auto-refresh Interval</div><div class="settings-desc">How often to refresh dashboard data</div></div>
+                <div class="settings-control">
+                  <select id="settings-refresh-interval">
+                    <option value="10000">10 seconds</option>
+                    <option value="15000">15 seconds</option>
+                    <option value="30000" selected>30 seconds</option>
+                    <option value="60000">60 seconds</option>
+                    <option value="0">Disabled</option>
+                  </select>
+                </div>
+              </div>
+              <div class="settings-row">
+                <div><div class="settings-label">Theme</div><div class="settings-desc">Switch between dark and light mode</div></div>
+                <div class="settings-control">
+                  <select id="settings-theme">
+                    <option value="dark">Dark</option>
+                    <option value="light">Light</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="settings-group">
+              <div class="settings-group-title">About</div>
+              <div class="settings-row">
+                <div><div class="settings-label">Version</div></div>
+                <div class="text-secondary" id="settings-version">6.0</div>
+              </div>
+              <div class="settings-row">
+                <div><div class="settings-label">License</div></div>
+                <div class="text-secondary">MIT</div>
+              </div>
+              <div class="settings-row">
+                <div><div class="settings-label">GitHub</div></div>
+                <div><a href="https://codeberg.org/mulkymalikuldhr/JeumpaLLM" target="_blank" rel="noopener" style="color:var(--accent);font-size:13px">mulkymalikuldhrs/Jeumpa LLM</a></div>
+              </div>
+              <div class="settings-row">
+                <div><div class="settings-label">Description</div></div>
+                <div class="text-secondary" style="max-width:400px;text-align:right">The Biggest Free Multi-LLM Hub &mdash; OpenAI/Anthropic-compatible API gateway with 13+ providers and 350+ models</div>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
+        </div>
+
+        <!-- ═══ Compare Models Page ═══ -->
+        <div class="page" id="page-compare">
+          <div class="page-header">
+            <h2>Model Comparison</h2>
+            <p>Send the same prompt to multiple models and compare responses side by side</p>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Compare Prompt</div>
+            </div>
+            <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+              <select id="compare-model-1" class="playground-controls" style="min-width:150px">
+                <option value="">Select Model 1</option>
+              </select>
+              <select id="compare-model-2" class="playground-controls" style="min-width:150px">
+                <option value="">Select Model 2</option>
+              </select>
+              <select id="compare-model-3" class="playground-controls" style="min-width:150px">
+                <option value="">Select Model 3 (optional)</option>
+              </select>
+            </div>
+            <textarea id="compare-prompt" rows="4" placeholder="Enter a prompt to compare across models..." style="width:100%;padding:12px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg-secondary);color:var(--text-primary);font-family:var(--font-sans);resize:vertical"></textarea>
+            <div style="display:flex;gap:8px;margin-top:12px">
+              <button class="btn btn-primary" onclick="runComparison()">Compare Models</button>
+              <button class="btn btn-secondary" onclick="clearComparison()">Clear</button>
+            </div>
+          </div>
+
+          <div id="compare-results" style="display:grid;gap:16px;margin-top:16px"></div>
+        </div>
+
+        <!-- ═══ Analytics Page ═══ -->
+        <div class="page" id="page-analytics">
+          <div class="page-header">
+            <h2>Usage Analytics</h2>
+            <p>Track requests, tokens, and performance across your gateway</p>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-label">Total Requests</div>
+              <div class="stat-value" id="analytics-total">0</div>
+              <div class="stat-sub">All time</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Avg Latency</div>
+              <div class="stat-value" id="analytics-latency">0ms</div>
+              <div class="stat-sub">Per request</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Success Rate</div>
+              <div class="stat-value" id="analytics-success">100%</div>
+              <div class="stat-sub">2xx responses</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Top Model</div>
+              <div class="stat-value" id="analytics-top-model">-</div>
+              <div class="stat-sub">Most requested</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Request Timeline</div>
+                <div class="card-subtitle">Requests over time</div>
+              </div>
+              <button class="btn btn-secondary btn-sm" onclick="refreshAnalytics()">&#8635; Refresh</button>
+            </div>
+            <div id="analytics-chart" style="height:200px;display:flex;align-items:flex-end;gap:2px;padding:16px"></div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Model Distribution</div>
+                <div class="card-subtitle">Requests per model</div>
+              </div>
+            </div>
+            <div id="analytics-models"></div>
+          </div>
+        </div>
+
+        <!-- ═══ Custom Domain Page ═══ -->
+        <div class="page" id="page-domain">
+          <div class="page-header">
+            <h2>Custom Domain Setup</h2>
+            <p>Point your domain to Jeumpa LLM as a custom base URL</p>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Quick Setup</div>
+            </div>
+            <div class="settings-group">
+              <div class="settings-row">
+                <div>
+                  <div class="settings-label">Your Gateway URL</div>
+                  <div class="settings-desc">Current endpoint URL for API calls</div>
+                </div>
+                <code id="domain-gateway-url" style="font-size:13px;color:var(--accent)">http://localhost:3333</code>
+              </div>
+              <div class="settings-row">
+                <div>
+                  <div class="settings-label">Custom Base URL</div>
+                  <div class="settings-desc">Set a custom URL for your applications</div>
+                </div>
+                <input type="text" id="domain-custom-url" placeholder="https://api.yourdomain.com" style="padding:8px 12px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg-secondary);color:var(--text-primary);width:300px">
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Integration Examples</div>
+            </div>
+            <div style="display:grid;gap:16px">
+              <div>
+                <div style="font-size:13px;font-weight:600;margin-bottom:8px">Python (OpenAI SDK)</div>
+                <pre style="background:var(--bg-secondary);padding:12px;border-radius:var(--radius);font-size:12px;overflow-x:auto;border:1px solid var(--border)"><code>from openai import OpenAI
+
+client = OpenAI(
+    base_url="<span id="domain-example-url">http://localhost:3333</span>/v1",
+    api_key="your-key-here"  # or leave empty
+)
+
+response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=[{"role": "user", "content": "Hello!"}]
+)</code></pre>
+              </div>
+              <div>
+                <div style="font-size:13px;font-weight:600;margin-bottom:8px">Node.js (OpenAI SDK)</div>
+                <pre style="background:var(--bg-secondary);padding:12px;border-radius:var(--radius);font-size:12px;overflow-x:auto;border:1px solid var(--border)"><code>import OpenAI from 'openai';
+
+const client = new OpenAI({
+    baseURL: "<span id="domain-example-url-2">http://localhost:3333</span>/v1",
+    apiKey: "your-key-here"  // or leave empty
+});
+
+const response = await client.chat.completions.create({
+    model: "gpt-4o",
+    messages: [{ role: "user", content: "Hello!" }]
+});</code></pre>
+              </div>
+              <div>
+                <div style="font-size:13px;font-weight:600;margin-bottom:8px">cURL</div>
+                <pre style="background:var(--bg-secondary);padding:12px;border-radius:var(--radius);font-size:12px;overflow-x:auto;border:1px solid var(--border)"><code>curl <span id="domain-example-curl">http://localhost:3333</span>/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer your-key" \
+  -d '{
+    "model": "gpt-4o",
+    "messages": [{"role": "user", "content": "Hello!"}]
+  }'</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">CORS Configuration</div>
+            </div>
+            <div class="settings-group">
+              <div class="settings-row">
+                <div>
+                  <div class="settings-label">Allowed Origins</div>
+                  <div class="settings-desc">Domains that can access your API (CORS)</div>
+                </div>
+                <input type="text" id="domain-cors-origin" placeholder="* or https://yourdomain.com" style="padding:8px 12px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg-secondary);color:var(--text-primary);width:300px">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <div class="toast-container" id="toast-container"></div>
+
+  <script>
+    /* ═══════════════════════════════════════════════════════════
+       Jeumpa LLM Dashboard — Complete Client Logic
+    ═══════════════════════════════════════════════════════════ */
+
+    // ── State ──────────────────────────────────────────────────
+    let API = '';
+    let allModels = [];
+    let allProviders = [];
+    let chatHistory = [];
+    let isStreaming = false;
+    let activityLog = [];
+    let requestLogs = [];
+    let currentModelFilter = 'all';
+    let currentLogFilter = 'all';
+    let mcpTools = [];
+    let refreshTimer = null;
+    let refreshInterval = 30000;
+
+    const PAGE_TITLES = {
+      overview: 'Overview', providers: 'Providers', models: 'Models',
+      playground: 'Playground', api: 'API Reference', byoapi: 'BYOAPI',
+      logs: 'Logs', mcp: 'MCP', settings: 'Settings',
+      compare: 'Model Comparison', analytics: 'Analytics', domain: 'Custom Domain'
+    };
+
+    // ── Init ───────────────────────────────────────────────────
+    (function init() {
+      // Load settings from localStorage
+      const saved = localStorage.getItem('pgllm-settings');
+      if (saved) {
+        try {
+          const s = JSON.parse(saved);
+          if (s.gatewayUrl) API = s.gatewayUrl;
+          if (s.refreshInterval) refreshInterval = s.refreshInterval;
+          if (s.theme) {
+            document.documentElement.setAttribute('data-theme', s.theme);
+            const sel = document.getElementById('settings-theme');
+            if (sel) sel.value = s.theme;
+          }
+        } catch {}
+      }
+      if (!API) API = window.location.origin;
+
+      const urlInput = document.getElementById('settings-gateway-url');
+      if (urlInput) urlInput.value = API;
+      const intervalSel = document.getElementById('settings-refresh-interval');
+      if (intervalSel) intervalSel.value = String(refreshInterval);
+
+      // Register service worker
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js').catch(() => {});
+      }
+
+      // Start
+      refreshAll();
+      startAutoRefresh();
+
+      // Load BYOAPI
+      renderBYOAPIList();
+    })();
+
+    // ── Navigation ──────────────────────────────────────────────
+    function showPage(page) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      const pageEl = document.getElementById('page-' + page);
+      if (pageEl) pageEl.classList.add('active');
+      const navEl = document.querySelector(`.nav-item[data-page="${page}"]`);
+      if (navEl) navEl.classList.add('active');
+      document.getElementById('main-header-title').textContent = PAGE_TITLES[page] || page;
+      closeSidebar();
+
+      // Lazy load page-specific data
+      if (page === 'mcp' && !mcpTools.length) {
+        loadMCPTools();
+        loadMCPResources();
+      }
+      if (page === 'compare') {
+        // Populate model dropdowns
+        const selects = ['compare-model-1', 'compare-model-2', 'compare-model-3'];
+        selects.forEach(id => {
+          const sel = document.getElementById(id);
+          if (sel && sel.options.length <= 1 && allModels.length) {
+            allModels.forEach(m => {
+              const opt = document.createElement('option');
+              opt.value = m.id; opt.textContent = m.id;
+              sel.appendChild(opt);
+            });
+          }
+        });
+      }
+      if (page === 'analytics') refreshAnalytics();
+      if (page === 'domain') initDomainPage();
+    }
+
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
+      document.getElementById('sidebar-overlay').classList.toggle('active');
+    }
+
+    function closeSidebar() {
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('sidebar-overlay').classList.remove('active');
+    }
+
+    // ── Toast Notifications ─────────────────────────────────────
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      const icon = type === 'success' ? '&#10003;' : type === 'error' ? '&#10007;' : '&#8505;';
+      toast.innerHTML = `<span>${icon}</span><span>${esc(message)}</span>`;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.transition = 'opacity 0.3s, transform 0.3s';
+        toast.style.opacity = '0'; toast.style.transform = 'translateX(20px)';
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    // ── Activity Log ────────────────────────────────────────────
+    function addActivity(text, type = 'info') {
+      const now = new Date();
+      activityLog.unshift({ time: now, text, type });
+      if (activityLog.length > 50) activityLog.pop();
+      renderActivityLog();
+    }
+
+    function renderActivityLog() {
+      const el = document.getElementById('activity-log');
+      if (!activityLog.length) {
+        el.innerHTML = '<div class="activity-item"><span class="activity-dot info"></span><span class="activity-time">--:--:--</span><span class="activity-text">Waiting for data...</span></div>';
+        return;
+      }
+      el.innerHTML = activityLog.slice(0, 30).map(a =>
+        `<div class="activity-item"><span class="activity-dot ${a.type}"></span><span class="activity-time">${a.time.toLocaleTimeString()}</span><span class="activity-text">${esc(a.text)}</span></div>`
+      ).join('');
+    }
+
+    // ── Request Logs ────────────────────────────────────────────
+    function addRequestLog(entry) {
+      requestLogs.unshift(entry);
+      if (requestLogs.length > 100) requestLogs.pop();
+      renderLogs();
+    }
+
+    function renderLogs() {
+      const tbody = document.getElementById('log-tbody');
+      let filtered = requestLogs;
+      if (currentLogFilter === 'success') filtered = requestLogs.filter(l => l.status >= 200 && l.status < 400);
+      else if (currentLogFilter === 'error') filtered = requestLogs.filter(l => l.status >= 400 || l.status === 0);
+
+      if (!filtered.length) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:24px">No logs match the current filter.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = filtered.map(l => {
+        const statusClass = (l.status >= 200 && l.status < 400) ? 'log-status-ok' : 'log-status-err';
+        return `<tr>
+          <td style="color:var(--text-muted);font-family:var(--font-mono);font-size:11px">${l.time}</td>
+          <td><span class="method-badge ${l.method === 'GET' ? 'method-get' : 'method-post'}" style="font-size:9px;padding:1px 5px">${l.method}</span></td>
+          <td style="font-family:var(--font-mono);font-size:11px">${esc(l.path)}</td>
+          <td style="font-size:11px">${esc(l.model || '-')}</td>
+          <td style="font-size:11px">${esc(l.provider || '-')}</td>
+          <td style="font-family:var(--font-mono);font-size:11px">${l.latency ? l.latency + 'ms' : '-'}</td>
+          <td class="${statusClass}" style="font-weight:600">${l.status || 'ERR'}</td>
+        </tr>`;
+      }).join('');
+    }
+
+    function setLogFilter(filter, btn) {
+      currentLogFilter = filter;
+      document.querySelectorAll('.log-filters .filter-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      renderLogs();
+    }
+
+    function clearLogs() {
+      requestLogs = [];
+      renderLogs();
+      showToast('Logs cleared', 'info');
+    }
+
+    // ── Data Loading ────────────────────────────────────────────
+    async function loadStatus() {
+      try {
+        const t0 = Date.now();
+        const res = await fetch(API + '/status');
+        const latency = Date.now() - t0;
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+
+        const enabled = data.providers?.enabled || 0;
+        const total = data.providers?.total || 0;
+        document.getElementById('stat-providers').textContent = enabled;
+        document.getElementById('stat-providers-sub').textContent = `${total} total \u00B7 ${enabled} enabled`;
+        document.getElementById('stat-uptime').textContent = formatUptime(data.uptime);
+        document.getElementById('stat-env').textContent = (data.env || 'development') + ' environment';
+        const ver = (data.version || '6.0').replace(/^v/, '');
+        document.getElementById('stat-version').textContent = ver;
+        document.getElementById('settings-version').textContent = ver;
+
+        updateGlobalHealth(enabled > 0);
+        addActivity(`Gateway status: ${enabled} providers enabled, ${formatUptime(data.uptime)} uptime`, enabled > 0 ? 'success' : 'warn');
+        addRequestLog({ time: new Date().toLocaleTimeString(), method: 'GET', path: '/status', latency, status: res.status });
+      } catch (err) {
+        console.error('Failed to load status:', err);
+        updateGlobalHealth(false);
+        addActivity('Failed to reach gateway: ' + err.message, 'error');
+      }
+    }
+
+    function updateGlobalHealth(healthy) {
+      const dotClass = healthy ? 'healthy' : 'down';
+      const text = healthy ? 'All systems operational' : 'Gateway unreachable';
+      const sidebarDot = document.getElementById('sidebar-health-dot');
+      sidebarDot.className = `health-dot ${dotClass}`;
+      document.getElementById('sidebar-status-text').textContent = text;
+      document.getElementById('mobile-health-dot').className = `health-dot ${dotClass}`;
+      const badge = document.getElementById('gateway-status-badge');
+      if (healthy) {
+        badge.style.background = 'var(--success-muted)'; badge.style.color = 'var(--success)';
+        badge.innerHTML = `<span class="health-dot healthy" style="width:6px;height:6px"></span> Operational`;
+      } else {
+        badge.style.background = 'var(--danger-muted)'; badge.style.color = 'var(--danger)';
+        badge.innerHTML = `<span class="health-dot down" style="width:6px;height:6px"></span> Unreachable`;
+      }
+    }
+
+    async function loadModels() {
+      try {
+        const t0 = Date.now();
+        const res = await fetch(API + '/models');
+        const latency = Date.now() - t0;
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        allModels = data.data || [];
+        document.getElementById('stat-models').textContent = allModels.length;
+        document.getElementById('nav-model-count').textContent = allModels.length;
+        document.getElementById('model-count').textContent = `${allModels.length} model${allModels.length !== 1 ? 's' : ''}`;
+        renderModels(allModels);
+        updateChatModelSelect();
+        addActivity(`Loaded ${allModels.length} models`, 'info');
+        addRequestLog({ time: new Date().toLocaleTimeString(), method: 'GET', path: '/models', latency, status: res.status });
+      } catch (err) {
+        console.error('Failed to load models:', err);
+        document.getElementById('model-grid').innerHTML = renderEmptyState('Failed to load models', err.message);
+        addActivity('Failed to load models: ' + err.message, 'error');
+      }
+    }
+
+    async function loadProviders() {
+      try {
+        const t0 = Date.now();
+        const res = await fetch(API + '/providers');
+        const latency = Date.now() - t0;
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        allProviders = data.providers || [];
+        document.getElementById('nav-provider-count').textContent = allProviders.length;
+        renderProviderHealth(allProviders);
+        renderProvidersDetail(allProviders);
+        addRequestLog({ time: new Date().toLocaleTimeString(), method: 'GET', path: '/providers', latency, status: res.status });
+      } catch (err) {
+        console.error('Failed to load providers:', err);
+        document.getElementById('provider-health-list').innerHTML = renderEmptyState('Failed to load providers', err.message);
+        document.getElementById('providers-detail').innerHTML = renderEmptyState('Failed to load providers', err.message);
+        addActivity('Failed to load providers: ' + err.message, 'error');
+      }
+    }
+
+    // ── Render Helpers ──────────────────────────────────────────
+    function renderEmptyState(title, desc) {
+      return `<div class="empty-state"><div class="empty-state-icon">&#9888;</div><div class="empty-state-title">${esc(title)}</div><div class="empty-state-desc">${esc(desc || '')}</div></div>`;
+    }
+
+    function healthClass(status) {
+      const s = (status || '').toLowerCase();
+      if (s === 'healthy' || s === 'ok' || s === 'up') return 'healthy';
+      if (s === 'degraded' || s === 'warning' || s === 'partial') return 'degraded';
+      if (s === 'down' || s === 'error' || s === 'unhealthy') return 'down';
+      return 'unknown';
+    }
+
+    function healthLabel(status) {
+      const s = (status || '').toLowerCase();
+      if (s === 'healthy' || s === 'ok' || s === 'up') return 'Healthy';
+      if (s === 'degraded' || s === 'warning' || s === 'partial') return 'Degraded';
+      if (s === 'down' || s === 'error' || s === 'unhealthy') return 'Down';
+      return 'Unknown';
+    }
+
+    function classifyModel(m) {
+      const id = (m.id || '').toLowerCase();
+      const desc = (m.description || '').toLowerCase();
+      const combined = id + ' ' + desc;
+      if (/flash|mini|fast|instant|8b|1b|3b/.test(combined)) return 'fast';
+      if (/code|coder|programming|dev/.test(combined)) return 'code';
+      if (/reasoning|think|r1|pro|o1|o3/.test(combined)) return 'reasoning';
+      return 'general';
+    }
+
+    // ── Provider Renders ────────────────────────────────────────
+    function renderProviderHealth(providers) {
+      const el = document.getElementById('provider-health-list');
+      if (!providers.length) {
+        el.innerHTML = renderEmptyState('No providers found', 'Check your configuration');
+        return;
+      }
+      el.innerHTML = providers.map(p => {
+        const hc = healthClass(p.healthStatus);
+        return `<div class="provider-row">
+          <span class="health-dot ${hc}"></span>
+          <span class="provider-name">${esc(p.displayName || p.name)}</span>
+          <span class="provider-priority">P${p.priority ?? '-'}</span>
+          <span class="provider-stat hide-mobile">${p.modelCount ?? '?'} models</span>
+          <span class="provider-stat hide-mobile">${p.avgLatency ?? '-'}ms</span>
+          <span class="provider-stat hide-mobile">${p.errorRate ?? '0%'}</span>
+          <span class="provider-stat">${healthLabel(p.healthStatus)}</span>
+        </div>`;
+      }).join('');
+    }
+
+    function renderProvidersDetail(providers) {
+      const el = document.getElementById('providers-detail');
+      if (!providers.length) {
+        el.innerHTML = renderEmptyState('No providers found', 'Check your configuration');
+        return;
+      }
+      el.innerHTML = providers.map(p => {
+        const hc = healthClass(p.healthStatus);
+        const modelsList = (p.models || []).map(m =>
+          `<span class="model-provider-badge">${esc(m)}</span>`
+        ).join('');
+        const enabledLabel = p.enabled === false
+          ? '<span style="font-size:11px;color:var(--danger);font-weight:600">DISABLED</span>'
+          : '<span style="font-size:11px;color:var(--success);font-weight:600">ENABLED</span>';
+
+        return `<div class="provider-detail-card">
+          <div class="provider-detail-header">
+            <div class="provider-detail-info">
+              <span class="health-dot ${hc}"></span>
+              <span class="provider-detail-name">${esc(p.displayName || p.name)}</span>
+              <span class="provider-priority">Priority ${p.priority ?? '-'}</span>
+              ${enabledLabel}
+            </div>
+            <div style="display:flex;gap:6px;align-items:center">
+              <button class="btn btn-secondary btn-sm" onclick="checkProviderHealth('${esc(p.name)}')">&#8635; Check Health</button>
+            </div>
+          </div>
+          <div class="provider-detail-stats">
+            <div class="provider-detail-stat">
+              <span class="provider-detail-stat-label">Requests</span>
+              <span class="provider-detail-stat-value">${(p.requestCount ?? 0).toLocaleString()}</span>
+            </div>
+            <div class="provider-detail-stat">
+              <span class="provider-detail-stat-label">Errors</span>
+              <span class="provider-detail-stat-value">${p.errorCount ?? 0} <span class="text-muted">(${p.errorRate ?? '0%'})</span></span>
+            </div>
+            <div class="provider-detail-stat">
+              <span class="provider-detail-stat-label">Avg Latency</span>
+              <span class="provider-detail-stat-value">${p.avgLatency ?? '-'}ms</span>
+            </div>
+            <div class="provider-detail-stat">
+              <span class="provider-detail-stat-label">Models</span>
+              <span class="provider-detail-stat-value">${p.modelCount ?? 0}</span>
+            </div>
+            <div class="provider-detail-stat">
+              <span class="provider-detail-stat-label">Health</span>
+              <span class="provider-detail-stat-value" style="color:var(--${hc === 'healthy' ? 'success' : hc === 'degraded' ? 'warning' : hc === 'down' ? 'danger' : 'text-muted'})">${healthLabel(p.healthStatus)}</span>
+            </div>
+            <div class="provider-detail-stat">
+              <span class="provider-detail-stat-label">Last Check</span>
+              <span class="provider-detail-stat-value">${p.lastHealthCheck ? new Date(p.lastHealthCheck).toLocaleTimeString() : 'Never'}</span>
+            </div>
+          </div>
+          ${modelsList ? `<div class="provider-models-list">${modelsList}</div>` : ''}
+        </div>`;
+      }).join('');
+    }
+
+    // ── Model Renders ───────────────────────────────────────────
+    function renderModels(models) {
+      const el = document.getElementById('model-grid');
+      if (!models.length) {
+        el.innerHTML = renderEmptyState('No models found', 'Try a different search or check providers');
+        return;
+      }
+      el.innerHTML = models.map(m => {
+        const providers = (m.providers || []).map(p =>
+          `<span class="model-provider-badge">${esc(p)}</span>`
+        ).join('');
+        const type = m.type || classifyModel(m);
+        const typeBadge = type !== 'general' ? `<span class="model-type-badge ${type}">${esc(type)}</span>` : `<span class="model-type-badge">${esc(type)}</span>`;
+        const maxTokens = m.maxTokens ? `<div class="model-tokens">${m.maxTokens.toLocaleString()} tokens</div>` : '';
+
+        return `<div class="model-card" onclick="playWithModel('${esc(m.id)}')">
+          <div class="model-card-top">
+            <span class="model-id">${esc(m.id)}</span>
+            ${typeBadge}
+          </div>
+          ${m.description ? `<div class="model-desc">${esc(m.description)}</div>` : ''}
+          ${providers ? `<div class="model-providers">${providers}</div>` : ''}
+          ${maxTokens}
+        </div>`;
+      }).join('');
+    }
+
+    function filterModels() {
+      const q = document.getElementById('model-search').value.toLowerCase().trim();
+      let filtered = allModels;
+
+      if (currentModelFilter !== 'all') {
+        filtered = filtered.filter(m => {
+          const type = m.type || classifyModel(m);
+          return type === currentModelFilter;
+        });
+      }
+
+      if (q) {
+        filtered = filtered.filter(m =>
+          (m.id || '').toLowerCase().includes(q) ||
+          (m.description || '').toLowerCase().includes(q) ||
+          (m.providers || []).some(p => p.toLowerCase().includes(q))
+        );
+      }
+
+      renderModels(filtered);
+      document.getElementById('model-count').textContent = `${filtered.length} of ${allModels.length} models`;
+    }
+
+    function setModelFilter(type, btn) {
+      currentModelFilter = type;
+      document.querySelectorAll('#model-filter-tabs .filter-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      filterModels();
+    }
+
+    function playWithModel(modelId) {
+      showPage('playground');
+      const select = document.getElementById('chat-model');
+      if (select.querySelector(`option[value="${modelId}"]`)) {
+        select.value = modelId;
+      }
+      document.getElementById('chat-input').focus();
+    }
+
+    function updateChatModelSelect() {
+      const select = document.getElementById('chat-model');
+      const currentVal = select.value;
+      select.innerHTML = allModels.map(m =>
+        `<option value="${esc(m.id)}">${esc(m.id)}${(m.providers || []).length ? ' (' + m.providers.join(', ') + ')' : ''}</option>`
+      ).join('');
+      if (currentVal && select.querySelector(`option[value="${currentVal}"]`)) {
+        select.value = currentVal;
+      } else if (allModels.length) {
+        select.value = allModels[0].id;
+      }
+    }
+
+    // ── Chat Playground ─────────────────────────────────────────
+    function clearChat() {
+      chatHistory = [];
+      renderChatMessages();
+    }
+
+    function copyChatMessage(index) {
+      const msg = chatHistory[index];
+      if (msg && msg.content) {
+        navigator.clipboard.writeText(msg.content).then(() => {
+          showToast('Copied to clipboard', 'success');
+        }).catch(() => showToast('Failed to copy', 'error'));
+      }
+    }
+
+    async function sendChat() {
+      if (isStreaming) return;
+
+      const input = document.getElementById('chat-input');
+      const msg = input.value.trim();
+      if (!msg) return;
+
+      const model = document.getElementById('chat-model').value || 'auto';
+      const format = document.getElementById('chat-format').value;
+      const stream = document.getElementById('chat-stream').checked;
+      const temperature = parseFloat(document.getElementById('chat-temp').value) || 0.7;
+      const maxTokens = parseInt(document.getElementById('chat-max-tokens').value) || 2048;
+      const systemPrompt = document.getElementById('chat-system-prompt').value.trim();
+
+      input.value = '';
+      chatHistory.push({ role: 'user', content: msg });
+      renderChatMessages();
+
+      const sendBtn = document.getElementById('chat-send');
+      sendBtn.disabled = true;
+      sendBtn.innerHTML = '<span class="loading-spinner" style="width:12px;height:12px"></span>';
+
+      const assistantMsg = { role: 'assistant', content: '' };
+      chatHistory.push(assistantMsg);
+      isStreaming = true;
+
+      const t0 = Date.now();
+      const endpoint = format === 'anthropic' ? '/v1/messages' : '/v1/chat/completions';
+      const messages = chatHistory.filter(m => m.content || m.role === 'user').slice(0, -1);
+
+      // Build request body
+      const body = { model, messages, stream, temperature, max_tokens: maxTokens };
+      if (systemPrompt && format === 'openai') {
+        body.messages = [{ role: 'system', content: systemPrompt }, ...body.messages];
+      } else if (systemPrompt && format === 'anthropic') {
+        body.system = systemPrompt;
+      }
+
+      let provider = '';
+      let status = 0;
+
+      try {
+        const res = await fetch(API + endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        });
+
+        status = res.status;
+        if (!res.ok) {
+          const errBody = await res.text();
+          throw new Error(`HTTP ${res.status}: ${errBody.substring(0, 200)}`);
+        }
+
+        if (stream) {
+          const reader = res.body.getReader();
+          const decoder = new TextDecoder();
+          let buffer = '';
+
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+
+            buffer += decoder.decode(value, { stream: true });
+            const lines = buffer.split('\n');
+            buffer = lines.pop() || '';
+
+            for (const line of lines) {
+              const trimmed = line.trim();
+              if (!trimmed || trimmed.startsWith(':')) continue;
+              if (trimmed.startsWith('data: ')) {
+                const data = trimmed.slice(6);
+                if (data === '[DONE]') continue;
+                try {
+                  const parsed = JSON.parse(data);
+                  const content = parsed.choices?.[0]?.delta?.content ||
+                                  parsed.delta?.text ||
+                                  parsed.content?.[0]?.text || '';
+                  if (content) {
+                    assistantMsg.content += content;
+                    renderChatMessages(true);
+                  }
+                  provider = provider || parsed.model || parsed.provider || '';
+                } catch {}
+              }
+            }
+          }
+        } else {
+          const data = await res.json();
+          if (format === 'anthropic') {
+            assistantMsg.content = data.content?.[0]?.text ||
+                                  data.content?.[0]?.content ||
+                                  JSON.stringify(data, null, 2);
+          } else {
+            assistantMsg.content = data.choices?.[0]?.message?.content ||
+                                  JSON.stringify(data, null, 2);
+          }
+          provider = data.model || data.provider || '';
+          renderChatMessages();
+        }
+
+        addActivity(`Chat completed: ${model} via ${provider || 'auto'}`, 'success');
+      } catch (err) {
+        assistantMsg.content = 'Error: ' + err.message;
+        renderChatMessages();
+        showToast('Chat request failed: ' + err.message, 'error');
+        addActivity(`Chat error: ${err.message}`, 'error');
+      }
+
+      const latency = Date.now() - t0;
+      addRequestLog({
+        time: new Date().toLocaleTimeString(),
+        method: 'POST', path: endpoint,
+        model, provider, latency, status: status || 0
+      });
+
+      isStreaming = false;
+      sendBtn.disabled = false;
+      sendBtn.textContent = 'Send';
+    }
+
+    function renderChatMessages(streaming = false) {
+      const el = document.getElementById('chat-messages');
+      if (!chatHistory.length) {
+        el.innerHTML = `<div class="chat-empty"><div class="chat-empty-icon">&#128172;</div><div class="chat-empty-text">Select a model and start chatting</div></div>`;
+        return;
+      }
+      el.innerHTML = chatHistory.map((m, i) => {
+        const isLastStreaming = streaming && i === chatHistory.length - 1 && m.role === 'assistant' && m.content;
+        const actions = m.role === 'assistant' && m.content
+          ? `<div class="chat-msg-actions"><button class="chat-msg-action-btn" onclick="copyChatMessage(${i})" title="Copy">&#128203;</button></div>`
+          : '';
+        return `<div class="chat-msg ${m.role}">
+          <div class="chat-msg-role">${m.role}</div>
+          <div class="chat-msg-content${isLastStreaming ? ' streaming-cursor' : ''}">${esc(m.content || '')}</div>
+          ${actions}
+        </div>`;
+      }).join('');
+      el.scrollTop = el.scrollHeight;
+    }
+
+    // ── Actions ─────────────────────────────────────────────────
+    async function checkProviderHealth(name) {
+      showToast(`Checking health of ${name}...`, 'info');
+      try {
+        const t0 = Date.now();
+        const res = await fetch(API + '/providers/' + encodeURIComponent(name) + '/health');
+        const latency = Date.now() - t0;
+        const data = await res.json();
+        const isHealthy = data.health === 'healthy' || data.health === 'ok';
+        showToast(`${name}: ${isHealthy ? 'Healthy' : data.health || 'Unknown'}`, isHealthy ? 'success' : 'error');
+        addActivity(`Health check ${name}: ${data.health || 'Unknown'} (${latency}ms)`, isHealthy ? 'success' : 'warn');
+        addRequestLog({ time: new Date().toLocaleTimeString(), method: 'GET', path: `/providers/${name}/health`, model: '', provider: name, latency, status: res.status });
+        refreshAll();
+      } catch (err) {
+        showToast('Health check failed: ' + err.message, 'error');
+        addActivity(`Health check failed for ${name}: ${err.message}`, 'error');
+      }
+    }
+
+    async function refreshHealth() {
+      showToast('Refreshing all provider health...', 'info');
+      await refreshAll();
+      showToast('Health refreshed', 'success');
+    }
+
+    async function syncModels() {
+      showToast('Syncing models...', 'info');
+      try {
+        await loadModels();
+        showToast('Models synced successfully', 'success');
+        addActivity('Models synced manually', 'info');
+      } catch (err) {
+        showToast('Model sync failed', 'error');
+      }
+    }
+
+    async function refreshAll() {
+      const refreshEl = document.getElementById('last-refresh');
+      refreshEl.textContent = 'Refreshing...';
+      await Promise.allSettled([loadStatus(), loadProviders(), loadModels()]);
+      refreshEl.textContent = 'Updated ' + new Date().toLocaleTimeString();
+    }
+
+    // ── MCP ─────────────────────────────────────────────────────
+    async function loadMCPTools() {
+      const el = document.getElementById('mcp-tools-list');
+      try {
+        const res = await fetch(API + '/mcp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'tools/list', params: {} })
+        });
+        const data = await res.json();
+        mcpTools = data.result?.tools || [];
+        if (!mcpTools.length) {
+          el.innerHTML = renderEmptyState('No MCP tools available', 'The MCP server has no tools registered');
+        } else {
+          el.innerHTML = mcpTools.map(t =>
+            `<div class="mcp-tool-card">
+              <div class="mcp-tool-name">${esc(t.name)}</div>
+              <div class="mcp-tool-desc">${esc(t.description || 'No description')}</div>
+            </div>`
+          ).join('');
+
+          // Update tool selector
+          const select = document.getElementById('mcp-tool-select');
+          select.innerHTML = '<option value="">Select a tool...</option>' +
+            mcpTools.map(t => `<option value="${esc(t.name)}">${esc(t.name)}</option>`).join('');
+        }
+      } catch (err) {
+        el.innerHTML = renderEmptyState('Failed to load MCP tools', err.message);
+      }
+    }
+
+    async function loadMCPResources() {
+      const el = document.getElementById('mcp-resources-list');
+      try {
+        const res = await fetch(API + '/mcp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ jsonrpc: '2.0', id: 2, method: 'resources/list', params: {} })
+        });
+        const data = await res.json();
+        const resources = data.result?.resources || [];
+        if (!resources.length) {
+          el.innerHTML = renderEmptyState('No MCP resources available', 'The MCP server has no resources registered');
+        } else {
+          el.innerHTML = resources.map(r =>
+            `<div class="mcp-tool-card">
+              <div class="mcp-tool-name">${esc(r.name || r.uri)}</div>
+              <div class="mcp-tool-desc">${esc(r.description || r.uri || 'No description')}</div>
+            </div>`
+          ).join('');
+        }
+      } catch (err) {
+        el.innerHTML = renderEmptyState('Failed to load MCP resources', err.message);
+      }
+    }
+
+    async function executeMCPTool() {
+      const toolName = document.getElementById('mcp-tool-select').value;
+      if (!toolName) { showToast('Select a tool first', 'error'); return; }
+
+      let args = {};
+      const argsText = document.getElementById('mcp-tool-args').value.trim();
+      if (argsText && argsText !== '{}') {
+        try { args = JSON.parse(argsText); }
+        catch (e) { showToast('Invalid JSON arguments: ' + e.message, 'error'); return; }
+      }
+
+      const resultEl = document.getElementById('mcp-result');
+      resultEl.textContent = 'Executing...';
+
+      try {
+        const t0 = Date.now();
+        const res = await fetch(API + '/mcp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ jsonrpc: '2.0', id: 3, method: 'tools/call', params: { name: toolName, arguments: args } })
+        });
+        const latency = Date.now() - t0;
+        const data = await res.json();
+        resultEl.textContent = JSON.stringify(data, null, 2);
+        addActivity(`MCP tool executed: ${toolName} (${latency}ms)`, 'success');
+        addRequestLog({ time: new Date().toLocaleTimeString(), method: 'POST', path: '/mcp', model: '', provider: toolName, latency, status: res.status });
+      } catch (err) {
+        resultEl.textContent = 'Error: ' + err.message;
+        showToast('MCP execution failed', 'error');
+      }
+    }
+
+    // ── BYOAPI ──────────────────────────────────────────────────
+    function getBYOAPIProviders() {
+      try { return JSON.parse(localStorage.getItem('pgllm-byoapi') || '[]'); }
+      catch { return []; }
+    }
+
+    function saveBYOAPIProviders(providers) {
+      localStorage.setItem('pgllm-byoapi', JSON.stringify(providers));
+    }
+
+    function addBYOAPI() {
+      const name = document.getElementById('byoapi-name').value.trim();
+      const url = document.getElementById('byoapi-url').value.trim();
+      const key = document.getElementById('byoapi-key').value.trim();
+      const models = document.getElementById('byoapi-models').value.trim().split(',').map(m => m.trim()).filter(Boolean);
+
+      if (!name || !url) { showToast('Provider name and base URL are required', 'error'); return; }
+
+      const providers = getBYOAPIProviders();
+      providers.push({ id: Date.now().toString(36), name, url, key, models, addedAt: new Date().toISOString() });
+      saveBYOAPIProviders(providers);
+
+      document.getElementById('byoapi-name').value = '';
+      document.getElementById('byoapi-url').value = '';
+      document.getElementById('byoapi-key').value = '';
+      document.getElementById('byoapi-models').value = '';
+
+      renderBYOAPIList();
+      showToast(`Added provider: ${name}`, 'success');
+      addActivity(`BYOAPI provider added: ${name}`, 'info');
+    }
+
+    function deleteBYOAPI(id) {
+      let providers = getBYOAPIProviders();
+      const p = providers.find(x => x.id === id);
+      providers = providers.filter(x => x.id !== id);
+      saveBYOAPIProviders(providers);
+      renderBYOAPIList();
+      showToast(`Deleted provider: ${p ? p.name : id}`, 'info');
+    }
+
+    function testBYOAPI(id) {
+      const providers = getBYOAPIProviders();
+      const p = providers.find(x => x.id === id);
+      if (!p) return;
+
+      showToast(`Testing connection to ${p.name}...`, 'info');
+      const testUrl = p.url.replace(/\/+$/, '') + '/models';
+      const headers = { 'Content-Type': 'application/json' };
+      if (p.key) headers['Authorization'] = `Bearer ${p.key}`;
+
+      fetch(testUrl, { headers })
+        .then(res => {
+          if (res.ok) {
+            showToast(`${p.name}: Connection successful`, 'success');
+            addActivity(`BYOAPI test OK: ${p.name}`, 'success');
+          } else {
+            showToast(`${p.name}: HTTP ${res.status}`, 'error');
+            addActivity(`BYOAPI test failed: ${p.name} (HTTP ${res.status})`, 'error');
+          }
+        })
+        .catch(err => {
+          showToast(`${p.name}: ${err.message}`, 'error');
+          addActivity(`BYOAPI test error: ${p.name} - ${err.message}`, 'error');
+        });
+    }
+
+    function renderBYOAPIList() {
+      const providers = getBYOAPIProviders();
+      const el = document.getElementById('byoapi-list');
+      if (!providers.length) {
+        el.innerHTML = `<div class="empty-state"><div class="empty-state-icon">&#128274;</div><div class="empty-state-title">No custom providers</div><div class="empty-state-desc">Add your own API provider above</div></div>`;
+        return;
+      }
+      el.innerHTML = providers.map(p => {
+        const modelBadges = (p.models || []).map(m => `<span class="model-provider-badge">${esc(m)}</span>`).join('');
+        return `<div class="provider-detail-card">
+          <div class="provider-detail-header">
+            <div class="provider-detail-info">
+              <span class="health-dot unknown"></span>
+              <span class="provider-detail-name">${esc(p.name)}</span>
+            </div>
+            <div style="display:flex;gap:6px">
+              <button class="btn btn-secondary btn-sm" onclick="testBYOAPI('${p.id}')">&#9889; Test</button>
+              <button class="btn btn-danger btn-sm" onclick="deleteBYOAPI('${p.id}')">&#128465; Delete</button>
+            </div>
+          </div>
+          <div class="provider-detail-stats">
+            <div class="provider-detail-stat"><span class="provider-detail-stat-label">Base URL</span><span class="provider-detail-stat-value font-mono text-sm">${esc(p.url)}</span></div>
+            <div class="provider-detail-stat"><span class="provider-detail-stat-label">API Key</span><span class="provider-detail-stat-value">${p.key ? '\u2022'.repeat(8) : 'None'}</span></div>
+            <div class="provider-detail-stat"><span class="provider-detail-stat-label">Added</span><span class="provider-detail-stat-value">${new Date(p.addedAt).toLocaleDateString()}</span></div>
+          </div>
+          ${modelBadges ? `<div class="provider-models-list">${modelBadges}</div>` : ''}
+        </div>`;
+      }).join('');
+    }
+
+    // ── Settings ────────────────────────────────────────────────
+    function saveSettings() {
+      const gatewayUrl = document.getElementById('settings-gateway-url').value.trim();
+      const refreshInt = parseInt(document.getElementById('settings-refresh-interval').value);
+      const theme = document.getElementById('settings-theme').value;
+
+      if (gatewayUrl) API = gatewayUrl;
+      refreshInterval = refreshInt;
+
+      document.documentElement.setAttribute('data-theme', theme);
+
+      localStorage.setItem('pgllm-settings', JSON.stringify({
+        gatewayUrl: API,
+        refreshInterval: refreshInt,
+        theme
+      }));
+
+      // Restart auto-refresh
+      startAutoRefresh();
+
+      showToast('Settings saved', 'success');
+      addActivity('Settings updated', 'info');
+      refreshAll();
+    }
+
+    function startAutoRefresh() {
+      if (refreshTimer) clearInterval(refreshTimer);
+      if (refreshInterval > 0) {
+        refreshTimer = setInterval(refreshAll, refreshInterval);
+      }
+    }
+
+    // ── Utilities ───────────────────────────────────────────────
+    function formatUptime(seconds) {
+      if (!seconds && seconds !== 0) return '\u2014';
+      const d = Math.floor(seconds / 86400);
+      const h = Math.floor((seconds % 86400) / 3600);
+      const m = Math.floor((seconds % 3600) / 60);
+      if (d > 0) return `${d}d ${h}h`;
+      if (h > 0) return `${h}h ${m}m`;
+      return `${m}m`;
+    }
+
+    function esc(text) {
+      const div = document.createElement('div');
+      div.textContent = text || '';
+      return div.innerHTML;
+    }
+
+    function copyCode(btn) {
+      const pre = btn.closest('.code-block').querySelector('pre');
+      const text = pre.textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const orig = btn.innerHTML;
+        btn.innerHTML = '&#10003; Copied!';
+        btn.style.color = 'var(--success)';
+        setTimeout(() => { btn.innerHTML = orig; btn.style.color = ''; }, 1500);
+      }).catch(() => showToast('Failed to copy', 'error'));
+    }
+
+    // ── Model Comparison ─────────────────────────────────────────
+    async function runComparison() {
+      const m1 = document.getElementById('compare-model-1').value;
+      const m2 = document.getElementById('compare-model-2').value;
+      const m3 = document.getElementById('compare-model-3').value;
+      const prompt = document.getElementById('compare-prompt').value.trim();
+      if (!prompt) { showToast('Enter a prompt first', 'warning'); return; }
+      const models = [m1, m2, m3].filter(Boolean);
+      if (models.length < 2) { showToast('Select at least 2 models', 'warning'); return; }
+
+      const container = document.getElementById('compare-results');
+      container.innerHTML = models.map(m => `
+        <div class="card" id="compare-${m.replace(/[^a-z0-9]/g,'-')}">
+          <div class="card-header"><div class="card-title">${m}</div><span class="loading-spinner"></span></div>
+          <div class="card-body"><p style="color:var(--text-muted)">Generating...</p></div>
+        </div>
+      `).join('');
+
+      for (const model of models) {
+        const cardId = 'compare-' + model.replace(/[^a-z0-9]/g,'-');
+        const card = document.getElementById(cardId);
+        const body = card.querySelector('.card-body');
+        const start = Date.now();
+        try {
+          const res = await fetch(API + '/v1/chat/completions', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ model, messages: [{ role: 'user', content: prompt }], max_tokens: 1024 })
+          });
+          const data = await res.json();
+          const elapsed = Date.now() - start;
+          const content = data.choices?.[0]?.message?.content || data.error || 'No response';
+          const tokens = data.usage?.total_tokens || '?';
+          body.innerHTML = `<p style="white-space:pre-wrap;font-size:13px">${escapeHtml(content)}</p>
+            <div style="margin-top:12px;font-size:12px;color:var(--text-muted);display:flex;gap:16px">
+              <span>⏱ ${elapsed}ms</span><span>🔑 ${tokens} tokens</span>
+            </div>`;
+          card.querySelector('.card-header span:last-child').remove();
+        } catch (e) {
+          body.innerHTML = `<p style="color:var(--danger)">Error: ${e.message}</p>`;
+          card.querySelector('.card-header span:last-child').remove();
+        }
+      }
+    }
+
+    function clearComparison() {
+      document.getElementById('compare-prompt').value = '';
+      document.getElementById('compare-results').innerHTML = '';
+    }
+
+    // ── Analytics ───────────────────────────────────────────────
+    function refreshAnalytics() {
+      fetch(API + '/logs?limit=500').then(r => r.json()).then(data => {
+        const logs = data.logs || [];
+        const total = logs.length;
+        const avgLat = total ? Math.round(logs.reduce((s,l) => s + (l.latency_ms||0), 0) / total) : 0;
+        const success = total ? Math.round(logs.filter(l => l.status < 400).length / total * 100) : 100;
+        const models = {};
+        logs.forEach(l => { models[l.model] = (models[l.model]||0) + 1; });
+        const topModel = Object.entries(models).sort((a,b) => b[1]-a[1])[0];
+
+        document.getElementById('analytics-total').textContent = total;
+        document.getElementById('analytics-latency').textContent = avgLat + 'ms';
+        document.getElementById('analytics-success').textContent = success + '%';
+        document.getElementById('analytics-top-model').textContent = topModel ? topModel[0] : '-';
+
+        // Timeline chart (last 20 time buckets)
+        const chart = document.getElementById('analytics-chart');
+        const buckets = new Array(20).fill(0);
+        const now = Date.now();
+        const bucketSize = 300000; // 5 min
+        logs.forEach(l => {
+          const age = now - new Date(l.timestamp).getTime();
+          const idx = 19 - Math.floor(age / bucketSize);
+          if (idx >= 0 && idx < 20) buckets[idx]++;
+        });
+        const maxB = Math.max(...buckets, 1);
+        chart.innerHTML = buckets.map(b => {
+          const h = Math.max(4, (b/maxB) * 160);
+          return `<div style="flex:1;background:var(--accent);height:${h}px;border-radius:2px;min-width:8px" title="${b} requests"></div>`;
+        }).join('');
+
+        // Model distribution
+        const modelsDiv = document.getElementById('analytics-models');
+        const sorted = Object.entries(models).sort((a,b) => b[1]-a[1]).slice(0,10);
+        const maxM = sorted[0]?.[1] || 1;
+        modelsDiv.innerHTML = sorted.map(([name, count]) => `
+          <div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--border)">
+            <span style="min-width:140px;font-size:13px;font-family:var(--font-mono)">${name}</span>
+            <div style="flex:1;height:8px;background:var(--bg-secondary);border-radius:4px;overflow:hidden">
+              <div style="height:100%;width:${count/maxM*100}%;background:var(--accent);border-radius:4px"></div>
+            </div>
+            <span style="font-size:12px;color:var(--text-muted);min-width:40px;text-align:right">${count}</span>
+          </div>
+        `).join('') || '<p style="color:var(--text-muted);padding:16px">No data yet. Make some API calls first.</p>';
+      }).catch(() => {});
+    }
+
+    // ── Custom Domain ───────────────────────────────────────────
+    function initDomainPage() {
+      const gwUrl = document.getElementById('domain-gateway-url');
+      const exUrl = document.getElementById('domain-example-url');
+      const exUrl2 = document.getElementById('domain-example-url-2');
+      const exCurl = document.getElementById('domain-example-curl');
+      const customInput = document.getElementById('domain-custom-url');
+      if (gwUrl) gwUrl.textContent = API;
+      if (exUrl) exUrl.textContent = API;
+      if (exUrl2) exUrl2.textContent = API;
+      if (exCurl) exCurl.textContent = API;
+      if (customInput) {
+        customInput.addEventListener('input', () => {
+          const val = customInput.value.replace(/\/+$/, '') || API;
+          if (exUrl) exUrl.textContent = val;
+          if (exUrl2) exUrl2.textContent = val;
+          if (exCurl) exCurl.textContent = val;
+        });
+      }
+      // Load saved CORS setting
+      const corsInput = document.getElementById('domain-cors-origin');
+      if (corsInput) {
+        const saved = localStorage.getItem('pgllm-cors-origin');
+        if (saved) corsInput.value = saved;
+      }
+    }
+
+    // ── Keyboard Shortcuts ──────────────────────────────────────
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeSidebar();
+    });
+
+    // ── Auto-refresh (pause when tab hidden) ────────────────────
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        if (refreshTimer) clearInterval(refreshTimer);
+      } else {
+        refreshAll();
+        startAutoRefresh();
+      }
+    });
+  </script>
+</body>
+</html>

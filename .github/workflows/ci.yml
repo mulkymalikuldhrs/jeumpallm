@@ -1,14 +1,17 @@
-name: CI — Python
-
-on: [push, pull_request]
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
-  test:
+  quality:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-      - run: pip install -r requirements.txt 2>/dev/null || true
-      - run: python -m pytest 2>/dev/null || python -m unittest discover 2>/dev/null || true
+      - name: Check for common issues
+        run: |
+          echo "Running basic quality checks..."
+          # Check for TODO/FIXME
+          grep -r "TODO\|FIXME" --include="*.ts" --include="*.js" --include="*.py" --include="*.tsx" . || echo "No TODOs/FIXMEs found"

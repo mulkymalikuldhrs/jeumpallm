@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#6366f1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="JeumpaLLM">
+  <meta name="description" content="AI Gateway — 47+ LLM providers, unified dashboard">
+  <title>JeumpaLLM — Dashboard</title>
+  <link rel="manifest" href="/app/manifest.json">
+  <link rel="stylesheet" href="/app/style.css">
+</head>
+<body>
+  <div id="app">
+    <aside id="sidebar">
+      <div class="sidebar-header">
+        <button id="hamburger" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </button>
+        <a href="#overview" class="logo">JeumpaLLM</a>
+      </div>
+      <nav id="nav">
+        <a href="#overview" data-page="overview">Overview</a>
+        <a href="#providers" data-page="providers">Providers</a>
+        <a href="#models" data-page="models">Models</a>
+        <a href="#playground" data-page="playground">Playground</a>
+        <a href="#api" data-page="api">API</a>
+        <a href="#mcp" data-page="mcp">MCP</a>
+        <a href="#compare" data-page="compare">Compare</a>
+        <a href="#workflows" data-page="workflows">Workflows</a>
+        <a href="#tools" data-page="tools">Tools</a>
+        <a href="#agent" data-page="agent">Agent</a>
+        <a href="#santri" data-page="santri">Santri</a>
+        <a href="#donasi" data-page="donasi">Donasi</a>
+        <a href="#fugu" data-page="fugu">Fugu</a>
+        <a href="#mcp-market" data-page="mcp-market">MCP Market</a>
+        <a href="#persona" data-page="persona">Persona</a>
+        <a href="#skills" data-page="skills">Skills</a>
+        <a href="#tracing" data-page="tracing">Tracing</a>
+        <a href="#analytics" data-page="analytics">Analytics</a>
+        <a href="#settings" data-page="settings">Settings</a>
+        <a href="#logs" data-page="logs">Logs</a>
+      </nav>
+      <div class="sidebar-footer">
+        <button id="theme-toggle" aria-label="Toggle theme">🌙</button>
+      </div>
+    </aside>
+    <div id="overlay"></div>
+    <main id="main">
+      <header id="header">
+        <h1 id="page-title">Overview</h1>
+      </header>
+      <div id="content"></div>
+    </main>
+  </div>
+  <div id="toast-container"></div>
+  <script src="/app/api.js"></script>
+  <script src="/app/storage.js"></script>
+  <script src="/app/app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/app/sw.js');
+    }
+  </script>
+</body>
+</html>
