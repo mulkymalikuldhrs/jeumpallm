@@ -1,0 +1,937 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "test.sh",
+      "file_type": "code",
+      "source_file": "test.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "_origin": "ast",
+      "id": "test",
+      "community": 6,
+      "norm_label": "test.sh"
+    },
+    {
+      "label": "test.sh script",
+      "file_type": "code",
+      "source_file": "test.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "_origin": "ast",
+      "id": "test_sh__entry",
+      "community": 6,
+      "norm_label": "test.sh script"
+    },
+    {
+      "label": "pass()",
+      "file_type": "code",
+      "source_file": "test.sh",
+      "source_location": "L6",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "test_pass",
+      "community": 6,
+      "norm_label": "pass()"
+    },
+    {
+      "label": "fail()",
+      "file_type": "code",
+      "source_file": "test.sh",
+      "source_location": "L7",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "test_fail",
+      "community": 6,
+      "norm_label": "fail()"
+    },
+    {
+      "label": "shell-test.sh",
+      "file_type": "code",
+      "source_file": "tests/shell-test.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "_origin": "ast",
+      "id": "tests_shell_test",
+      "community": 7,
+      "norm_label": "shell-test.sh"
+    },
+    {
+      "label": "shell-test.sh script",
+      "file_type": "code",
+      "source_file": "tests/shell-test.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "_origin": "ast",
+      "id": "tests_shell_test_sh__entry",
+      "community": 7,
+      "norm_label": "shell-test.sh script"
+    },
+    {
+      "label": "AGENTS.md",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "agents",
+      "community": 1,
+      "norm_label": "agents.md"
+    },
+    {
+      "label": "jeumpallm \u2014 Canonical Repo",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "agents_jeumpallm_canonical_repo",
+      "community": 1,
+      "norm_label": "jeumpallm \u2014 canonical repo"
+    },
+    {
+      "label": "Remotes",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "agents_remotes",
+      "community": 1,
+      "norm_label": "remotes"
+    },
+    {
+      "label": "Key Architecture (Python v2.6)",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "agents_key_architecture_python_v2_6",
+      "community": 1,
+      "norm_label": "key architecture (python v2.6)"
+    },
+    {
+      "label": "History",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L27",
+      "_origin": "ast",
+      "id": "agents_history",
+      "community": 1,
+      "norm_label": "history"
+    },
+    {
+      "label": "Quick Start",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L34",
+      "_origin": "ast",
+      "id": "agents_quick_start",
+      "community": 1,
+      "norm_label": "quick start"
+    },
+    {
+      "label": "Code Stats",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L44",
+      "_origin": "ast",
+      "id": "agents_code_stats",
+      "community": 1,
+      "norm_label": "code stats"
+    },
+    {
+      "label": "REALIZATION MANDATE",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L50",
+      "_origin": "ast",
+      "id": "agents_realization_mandate",
+      "community": 1,
+      "norm_label": "realization mandate"
+    },
+    {
+      "label": "CLAUDE.md",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "claude",
+      "community": 3,
+      "norm_label": "claude.md"
+    },
+    {
+      "label": "DHAHER LABS \u2014 REALIZATION MANDATE",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "claude_dhaher_labs_realization_mandate",
+      "community": 3,
+      "norm_label": "dhaher labs \u2014 realization mandate"
+    },
+    {
+      "label": "Project: JeumpaLLM",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "claude_project_jeumpallm",
+      "community": 3,
+      "norm_label": "project: jeumpallm"
+    },
+    {
+      "label": "Mandate",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "claude_mandate",
+      "community": 3,
+      "norm_label": "mandate"
+    },
+    {
+      "label": "Architecture",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "claude_architecture",
+      "community": 3,
+      "norm_label": "architecture"
+    },
+    {
+      "label": "Links",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "L19",
+      "_origin": "ast",
+      "id": "claude_links",
+      "community": 3,
+      "norm_label": "links"
+    },
+    {
+      "label": "DHAHER_LABS_MANDATE.md",
+      "file_type": "document",
+      "source_file": "DHAHER_LABS_MANDATE.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "dhaher_labs_mandate",
+      "community": 2,
+      "norm_label": "dhaher_labs_mandate.md"
+    },
+    {
+      "label": "DHAHER LABS REALIZATION MANDATE",
+      "file_type": "document",
+      "source_file": "DHAHER_LABS_MANDATE.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "dhaher_labs_mandate_dhaher_labs_realization_mandate",
+      "community": 2,
+      "norm_label": "dhaher labs realization mandate"
+    },
+    {
+      "label": "Kepada Seluruh Ekosistem \u2014 Declaration of Existence",
+      "file_type": "document",
+      "source_file": "DHAHER_LABS_MANDATE.md",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "dhaher_labs_mandate_kepada_seluruh_ekosistem_declaration_of_existence",
+      "community": 2,
+      "norm_label": "kepada seluruh ekosistem \u2014 declaration of existence"
+    },
+    {
+      "label": "Article I \u2014 No More Simulations",
+      "file_type": "document",
+      "source_file": "DHAHER_LABS_MANDATE.md",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "dhaher_labs_mandate_article_i_no_more_simulations",
+      "community": 2,
+      "norm_label": "article i \u2014 no more simulations"
+    },
+    {
+      "label": "Article II \u2014 Every Project Must",
+      "file_type": "document",
+      "source_file": "DHAHER_LABS_MANDATE.md",
+      "source_location": "L25",
+      "_origin": "ast",
+      "id": "dhaher_labs_mandate_article_ii_every_project_must",
+      "community": 2,
+      "norm_label": "article ii \u2014 every project must"
+    },
+    {
+      "label": "Article III \u2014 The Autonomous Organism",
+      "file_type": "document",
+      "source_file": "DHAHER_LABS_MANDATE.md",
+      "source_location": "L35",
+      "_origin": "ast",
+      "id": "dhaher_labs_mandate_article_iii_the_autonomous_organism",
+      "community": 2,
+      "norm_label": "article iii \u2014 the autonomous organism"
+    },
+    {
+      "label": "Article IV \u2014 Enforcement",
+      "file_type": "document",
+      "source_file": "DHAHER_LABS_MANDATE.md",
+      "source_location": "L46",
+      "_origin": "ast",
+      "id": "dhaher_labs_mandate_article_iv_enforcement",
+      "community": 2,
+      "norm_label": "article iv \u2014 enforcement"
+    },
+    {
+      "label": "README.md",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "readme",
+      "community": 5,
+      "norm_label": "readme.md"
+    },
+    {
+      "label": "Jeumpa LLM",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "readme_jeumpa_llm",
+      "community": 5,
+      "norm_label": "jeumpa llm"
+    },
+    {
+      "label": "Status",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "readme_status",
+      "community": 5,
+      "norm_label": "status"
+    },
+    {
+      "label": "\ud83c\udf10 Dhaher Labs Ecosystem",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L18",
+      "_origin": "ast",
+      "id": "readme_dhaher_labs_ecosystem",
+      "community": 5,
+      "norm_label": "\ud83c\udf10 dhaher labs ecosystem"
+    },
+    {
+      "label": "SECURITY.md",
+      "file_type": "document",
+      "source_file": "SECURITY.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "security",
+      "community": 4,
+      "norm_label": "security.md"
+    },
+    {
+      "label": "Security Policy",
+      "file_type": "document",
+      "source_file": "SECURITY.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "security_security_policy",
+      "community": 4,
+      "norm_label": "security policy"
+    },
+    {
+      "label": "Reporting",
+      "file_type": "document",
+      "source_file": "SECURITY.md",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "security_reporting",
+      "community": 4,
+      "norm_label": "reporting"
+    },
+    {
+      "label": "Scope",
+      "file_type": "document",
+      "source_file": "SECURITY.md",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "security_scope",
+      "community": 4,
+      "norm_label": "scope"
+    },
+    {
+      "label": "Commitment",
+      "file_type": "document",
+      "source_file": "SECURITY.md",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "security_commitment",
+      "community": 4,
+      "norm_label": "commitment"
+    },
+    {
+      "label": "2026-06-30-jeumpa-merge.md",
+      "file_type": "document",
+      "source_file": "docs/plans/2026-06-30-jeumpa-merge.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_plans_2026_06_30_jeumpa_merge",
+      "community": 0,
+      "norm_label": "2026-06-30-jeumpa-merge.md"
+    },
+    {
+      "label": "JeumpaLLM Consolidation Merge \u2014 Implementation Plan",
+      "file_type": "document",
+      "source_file": "docs/plans/2026-06-30-jeumpa-merge.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_plans_2026_06_30_jeumpa_merge_jeumpallm_consolidation_merge_implementation_plan",
+      "community": 0,
+      "norm_label": "jeumpallm consolidation merge \u2014 implementation plan"
+    },
+    {
+      "label": "Task 1: Delete Duplicate Codeberg Python Variant",
+      "file_type": "document",
+      "source_file": "docs/plans/2026-06-30-jeumpa-merge.md",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "docs_plans_2026_06_30_jeumpa_merge_task_1_delete_duplicate_codeberg_python_variant",
+      "community": 0,
+      "norm_label": "task 1: delete duplicate codeberg python variant"
+    },
+    {
+      "label": "Task 2: Delete Duplicate GitHub Python Variant",
+      "file_type": "document",
+      "source_file": "docs/plans/2026-06-30-jeumpa-merge.md",
+      "source_location": "L61",
+      "_origin": "ast",
+      "id": "docs_plans_2026_06_30_jeumpa_merge_task_2_delete_duplicate_github_python_variant",
+      "community": 0,
+      "norm_label": "task 2: delete duplicate github python variant"
+    },
+    {
+      "label": "Task 3: Clean archive/ in Canonical \u2014 Remove Bare Git Repo",
+      "file_type": "document",
+      "source_file": "docs/plans/2026-06-30-jeumpa-merge.md",
+      "source_location": "L98",
+      "_origin": "ast",
+      "id": "docs_plans_2026_06_30_jeumpa_merge_task_3_clean_archive_in_canonical_remove_bare_git_repo",
+      "community": 0,
+      "norm_label": "task 3: clean archive/ in canonical \u2014 remove bare git repo"
+    },
+    {
+      "label": "Task 4: Clean archive/ \u2014 Remove Old Service Scripts",
+      "file_type": "document",
+      "source_file": "docs/plans/2026-06-30-jeumpa-merge.md",
+      "source_location": "L135",
+      "_origin": "ast",
+      "id": "docs_plans_2026_06_30_jeumpa_merge_task_4_clean_archive_remove_old_service_scripts",
+      "community": 0,
+      "norm_label": "task 4: clean archive/ \u2014 remove old service scripts"
+    },
+    {
+      "label": "Task 5: Clean archive/ \u2014 Remove Old HTML Docs",
+      "file_type": "document",
+      "source_file": "docs/plans/2026-06-30-jeumpa-merge.md",
+      "source_location": "L175",
+      "_origin": "ast",
+      "id": "docs_plans_2026_06_30_jeumpa_merge_task_5_clean_archive_remove_old_html_docs",
+      "community": 0,
+      "norm_label": "task 5: clean archive/ \u2014 remove old html docs"
+    },
+    {
+      "label": "Task 6: Remove Empty/Filler Files in Canonical",
+      "file_type": "document",
+      "source_file": "docs/plans/2026-06-30-jeumpa-merge.md",
+      "source_location": "L203",
+      "_origin": "ast",
+      "id": "docs_plans_2026_06_30_jeumpa_merge_task_6_remove_empty_filler_files_in_canonical",
+      "community": 0,
+      "norm_label": "task 6: remove empty/filler files in canonical"
+    },
+    {
+      "label": "Task 7: Move Canonical Repo to Workspace Root",
+      "file_type": "document",
+      "source_file": "docs/plans/2026-06-30-jeumpa-merge.md",
+      "source_location": "L248",
+      "_origin": "ast",
+      "id": "docs_plans_2026_06_30_jeumpa_merge_task_7_move_canonical_repo_to_workspace_root",
+      "community": 0,
+      "norm_label": "task 7: move canonical repo to workspace root"
+    },
+    {
+      "label": "Task 8: Update AGENTS.md with Final Clean State",
+      "file_type": "document",
+      "source_file": "docs/plans/2026-06-30-jeumpa-merge.md",
+      "source_location": "L302",
+      "_origin": "ast",
+      "id": "docs_plans_2026_06_30_jeumpa_merge_task_8_update_agents_md_with_final_clean_state",
+      "community": 0,
+      "norm_label": "task 8: update agents.md with final clean state"
+    },
+    {
+      "label": "Task 9: Final Verification \u2014 Health Check",
+      "file_type": "document",
+      "source_file": "docs/plans/2026-06-30-jeumpa-merge.md",
+      "source_location": "L328",
+      "_origin": "ast",
+      "id": "docs_plans_2026_06_30_jeumpa_merge_task_9_final_verification_health_check",
+      "community": 0,
+      "norm_label": "task 9: final verification \u2014 health check"
+    },
+    {
+      "label": "Post-Merge Notes",
+      "file_type": "document",
+      "source_file": "docs/plans/2026-06-30-jeumpa-merge.md",
+      "source_location": "L380",
+      "_origin": "ast",
+      "id": "docs_plans_2026_06_30_jeumpa_merge_post_merge_notes",
+      "community": 0,
+      "norm_label": "post-merge notes"
+    }
+  ],
+  "links": [
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "test.sh",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "test",
+      "target": "test_fail",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "test.sh",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "test",
+      "target": "test_pass",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "test.sh",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "test",
+      "target": "test_sh__entry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "test.sh",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "call",
+      "source": "test_sh__entry",
+      "target": "test_fail",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "test.sh",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "call",
+      "source": "test_sh__entry",
+      "target": "test_pass",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/shell-test.sh",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "tests_shell_test",
+      "target": "tests_shell_test_sh__entry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "agents",
+      "target": "agents_jeumpallm_canonical_repo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L44",
+      "weight": 1.0,
+      "source": "agents_jeumpallm_canonical_repo",
+      "target": "agents_code_stats",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L27",
+      "weight": 1.0,
+      "source": "agents_jeumpallm_canonical_repo",
+      "target": "agents_history",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "agents_jeumpallm_canonical_repo",
+      "target": "agents_key_architecture_python_v2_6",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L34",
+      "weight": 1.0,
+      "source": "agents_jeumpallm_canonical_repo",
+      "target": "agents_quick_start",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L50",
+      "weight": 1.0,
+      "source": "agents_jeumpallm_canonical_repo",
+      "target": "agents_realization_mandate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "agents_jeumpallm_canonical_repo",
+      "target": "agents_remotes",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CLAUDE.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "claude",
+      "target": "claude_dhaher_labs_realization_mandate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CLAUDE.md",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "claude_dhaher_labs_realization_mandate",
+      "target": "claude_project_jeumpallm",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CLAUDE.md",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "claude_project_jeumpallm",
+      "target": "claude_architecture",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CLAUDE.md",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "claude_project_jeumpallm",
+      "target": "claude_links",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CLAUDE.md",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "claude_project_jeumpallm",
+      "target": "claude_mandate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "DHAHER_LABS_MANDATE.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "dhaher_labs_mandate",
+      "target": "dhaher_labs_mandate_dhaher_labs_realization_mandate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "DHAHER_LABS_MANDATE.md",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "dhaher_labs_mandate_dhaher_labs_realization_mandate",
+      "target": "dhaher_labs_mandate_article_i_no_more_simulations",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "DHAHER_LABS_MANDATE.md",
+      "source_location": "L25",
+      "weight": 1.0,
+      "source": "dhaher_labs_mandate_dhaher_labs_realization_mandate",
+      "target": "dhaher_labs_mandate_article_ii_every_project_must",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "DHAHER_LABS_MANDATE.md",
+      "source_location": "L35",
+      "weight": 1.0,
+      "source": "dhaher_labs_mandate_dhaher_labs_realization_mandate",
+      "target": "dhaher_labs_mandate_article_iii_the_autonomous_organism",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "DHAHER_LABS_MANDATE.md",
+      "source_location": "L46",
+      "weight": 1.0,
+      "source": "dhaher_labs_mandate_dhaher_labs_realization_mandate",
+      "target": "dhaher_labs_mandate_article_iv_enforcement",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "DHAHER_LABS_MANDATE.md",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "dhaher_labs_mandate_dhaher_labs_realization_mandate",
+      "target": "dhaher_labs_mandate_kepada_seluruh_ekosistem_declaration_of_existence",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "readme",
+      "target": "readme_jeumpa_llm",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "readme_jeumpa_llm",
+      "target": "readme_dhaher_labs_ecosystem",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "readme_jeumpa_llm",
+      "target": "readme_status",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "SECURITY.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "security",
+      "target": "security_security_policy",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "SECURITY.md",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "security_security_policy",
+      "target": "security_commitment",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "SECURITY.md",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "security_security_policy",
+      "target": "security_reporting",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "SECURITY.md",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "security_security_policy",
+      "target": "security_scope",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plans/2026-06-30-jeumpa-merge.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "docs_plans_2026_06_30_jeumpa_merge",
+      "target": "docs_plans_2026_06_30_jeumpa_merge_jeumpallm_consolidation_merge_implementation_plan",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plans/2026-06-30-jeumpa-merge.md",
+      "source_location": "L380",
+      "weight": 1.0,
+      "source": "docs_plans_2026_06_30_jeumpa_merge_jeumpallm_consolidation_merge_implementation_plan",
+      "target": "docs_plans_2026_06_30_jeumpa_merge_post_merge_notes",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plans/2026-06-30-jeumpa-merge.md",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "docs_plans_2026_06_30_jeumpa_merge_jeumpallm_consolidation_merge_implementation_plan",
+      "target": "docs_plans_2026_06_30_jeumpa_merge_task_1_delete_duplicate_codeberg_python_variant",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plans/2026-06-30-jeumpa-merge.md",
+      "source_location": "L61",
+      "weight": 1.0,
+      "source": "docs_plans_2026_06_30_jeumpa_merge_jeumpallm_consolidation_merge_implementation_plan",
+      "target": "docs_plans_2026_06_30_jeumpa_merge_task_2_delete_duplicate_github_python_variant",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plans/2026-06-30-jeumpa-merge.md",
+      "source_location": "L98",
+      "weight": 1.0,
+      "source": "docs_plans_2026_06_30_jeumpa_merge_jeumpallm_consolidation_merge_implementation_plan",
+      "target": "docs_plans_2026_06_30_jeumpa_merge_task_3_clean_archive_in_canonical_remove_bare_git_repo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plans/2026-06-30-jeumpa-merge.md",
+      "source_location": "L135",
+      "weight": 1.0,
+      "source": "docs_plans_2026_06_30_jeumpa_merge_jeumpallm_consolidation_merge_implementation_plan",
+      "target": "docs_plans_2026_06_30_jeumpa_merge_task_4_clean_archive_remove_old_service_scripts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plans/2026-06-30-jeumpa-merge.md",
+      "source_location": "L175",
+      "weight": 1.0,
+      "source": "docs_plans_2026_06_30_jeumpa_merge_jeumpallm_consolidation_merge_implementation_plan",
+      "target": "docs_plans_2026_06_30_jeumpa_merge_task_5_clean_archive_remove_old_html_docs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plans/2026-06-30-jeumpa-merge.md",
+      "source_location": "L203",
+      "weight": 1.0,
+      "source": "docs_plans_2026_06_30_jeumpa_merge_jeumpallm_consolidation_merge_implementation_plan",
+      "target": "docs_plans_2026_06_30_jeumpa_merge_task_6_remove_empty_filler_files_in_canonical",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plans/2026-06-30-jeumpa-merge.md",
+      "source_location": "L248",
+      "weight": 1.0,
+      "source": "docs_plans_2026_06_30_jeumpa_merge_jeumpallm_consolidation_merge_implementation_plan",
+      "target": "docs_plans_2026_06_30_jeumpa_merge_task_7_move_canonical_repo_to_workspace_root",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plans/2026-06-30-jeumpa-merge.md",
+      "source_location": "L302",
+      "weight": 1.0,
+      "source": "docs_plans_2026_06_30_jeumpa_merge_jeumpallm_consolidation_merge_implementation_plan",
+      "target": "docs_plans_2026_06_30_jeumpa_merge_task_8_update_agents_md_with_final_clean_state",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plans/2026-06-30-jeumpa-merge.md",
+      "source_location": "L328",
+      "weight": 1.0,
+      "source": "docs_plans_2026_06_30_jeumpa_merge_jeumpallm_consolidation_merge_implementation_plan",
+      "target": "docs_plans_2026_06_30_jeumpa_merge_task_9_final_verification_health_check",
+      "confidence_score": 1.0
+    }
+  ],
+  "hyperedges": [],
+  "built_at_commit": "bba6a393fd3778f1760ab1cf4224b82b6c8737a4"
+}
